@@ -1,8 +1,16 @@
-/* body {
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 header {
@@ -20,6 +28,12 @@ header>a{
     color: white;
 }
 
+.subJudul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -35,8 +49,20 @@ nav ul li a {
     text-decoration: none;
 }
 
+a{
+    width: auto;
+
+}
+
 main {
     padding: 20px;
+    flex: 1;
+}
+
+.loginForm{
+    width: auto;
+    display: flex;
+    justify-content: center;
 }
 
 section {
@@ -55,16 +81,45 @@ form {
     margin-bottom: 20px;
 }
 
+.tambah{
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.tambah>section>form{
+    width: 400px;
+}
+
+h2+form{
+    width: 70%;
+}
+
+#login {
+    background: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: cen; */
+}
+
 label {
     display: block;
     margin: 10px 0 5px;
 }
 
 input[type="text"],
+input[type="password"],
 input[type="number"],
 input[type="email"],
 select {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -116,4 +171,4 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
-} */
+}

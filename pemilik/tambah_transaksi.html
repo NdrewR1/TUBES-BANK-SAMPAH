@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css"> 
+</head>
+<body>
+    <header> 
+        <a href="transaksi.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Transaksi Penyetoran Sampah</h1> 
+    </header>
+    <main class="tambah">
+        <section class="tambahMember">
+            <h2>Rekam Transaksi</h2>
+        <form>
+            <label for="member">Pilih Member:</label>
+            <select id="member" name="member" required>
+                <option value="">-- Pilih Member --</option>
+                <option value="1">Jane Doe</option>
+            </select>
+            <label for="jenis_sampah">Jenis Sampah:</label>
+            <input type="text" id="jenis_sampah" name="jenis_sampah" required>
+            <label for="kuantitas">Kuantitas:</label>
+            <input type="number" id="kuantitas" name="kuantitas" required>
+            <button type="submit">Rekam Transaksi</button>
+        </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Bank Sampah Daur Ulang. Semua hak dilindungi.</p>
+    </footer>
+</body>
+</html>
