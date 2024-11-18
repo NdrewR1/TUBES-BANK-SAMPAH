@@ -12,20 +12,48 @@
         <h1>Transaksi Penyetoran Sampah</h1> 
     </header>
     <main class="tambah">
+        <section class="card-container">
+            <div class="card">
+                <div class="keteranganCard">
+                    <h3>Botol Plastik 600ml</h3>
+                    <p>Harga: 2000/buah</p>
+                </div>
+                
+                
+                <div class="number-input">
+                    Kuantitas:
+                    <input type="number" id="number" value="0" min="0" />
+                </div>
+            </div>
+            <div class="card">
+                <div class="keteranganCard">
+                    <h3>Kardus</h3>
+                    <p>Harga: 1500/kg</p>
+                </div>
+                
+                
+                <div class="number-input">
+                    Kuantitas:
+                    <input type="number" id="number" value="0" min="0" />
+                </div>
+            </div>
+            
+        </section>
         <section class="tambahMember">
             <h2>Rekam Transaksi</h2>
-        <form>
-            <label for="member">Pilih Member:</label>
-            <select id="member" name="member" required>
-                <option value="">-- Pilih Member --</option>
-                <option value="1">Jane Doe</option>
-            </select>
-            <label for="jenis_sampah">Jenis Sampah:</label>
-            <input type="text" id="jenis_sampah" name="jenis_sampah" required>
-            <label for="kuantitas">Kuantitas:</label>
-            <input type="number" id="kuantitas" name="kuantitas" required>
-            <button type="submit">Rekam Transaksi</button>
-        </form>
+            <form>
+                <label for="member">Pilih Member:</label>
+                <select id="member" name="member" required>
+                    <option value="">-- Pilih Member --</option>
+                    <option value="1">Jane Doe</option>
+                </select>
+
+                <!-- <label for="jenis_sampah">Jenis Sampah:</label>
+                <input type="text" id="jenis_sampah" name="jenis_sampah" required>
+                <label for="kuantitas">Kuantitas:</label>
+                <input type="number" id="kuantitas" name="kuantitas" required> -->
+                <button type="submit">Rekam Transaksi</button>
+            </form>
         </section>
     </main>
 
