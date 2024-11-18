@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Jenis Sampah - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Kelola Jenis Sampah</h1>
+    </header>
+
+    <main>
+        <h2>Tambah Jenis Sampah</h2>
+        <form>
+            <label for="jenis_sampah">Jenis Sampah:</label>
+            <input type="text" id="jenis_sampah" name="jenis_sampah" required>
+            <label for="satuan">Satuan:</label>
+            <input type="text" id="satuan" name="satuan" required>
+            <label for="harga_beli">Harga Beli (Rp):</label>
+            <input type="number" id="harga_beli" name="harga_beli" required>
+            <button type="submit">Tambah</button>
+        </form>
+
+        <h2>Daftar Jenis Sampah</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Jenis Sampah</th>
+                    <th>Satuan</th>
+                    <th>Harga Beli (Rp)</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Botol Plastik 600ml</td>
+                    <td>Buah</td>
+                    <td>2.000</td>
+                    <td><button>Edit</button> <button>Hapus</button></td>
+                </tr>
+                <!-- Tambahkan jenis sampah lainnya di sini -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Bank Sampah Daur Ulang. Semua hak dilindungi.</p>
+    </footer>
+</body>
+</html>
