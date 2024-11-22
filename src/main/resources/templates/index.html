@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Bank Sampah Daur Ulang</h1>
+        <nav>
+            <ul>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="harga">
+            <h2>Daftar Harga Beli Sampah</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Gambar</th>
+                        <th>Jenis Sampah</th>
+                        <th>Satuan</th>
+                        <th>Harga Beli (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sampah : ${sampahList}">
+                        <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/>
+                        </td>
+                        <td th:text="${sampah.nama}"></td>
+                        <td th:text="${sampah.satuankuantitas}"></td>
+                        <td th:text="${sampah.harga}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>
