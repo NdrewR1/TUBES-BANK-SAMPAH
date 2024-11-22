@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.BankSampah.sampah.Sampah;
-import com.example.BankSampah.sampah.SampahRepository;
+import com.example.BankSampah.model.sampah.Sampah;
+import com.example.BankSampah.model.sampah.SampahRepository;
 
 @Controller
 public class indexController {
@@ -19,5 +19,15 @@ public class indexController {
         Iterable<Sampah> list = repo.findAll();
         model.addAttribute("sampahList", list);
         return "index";
+    }
+
+    @GetMapping("/loginPage")
+    public String showLogin() {
+        return "login";
+    }
+
+    @GetMapping("/logoutPage")
+    public String showLogout() {
+        return "logout";
     }
 }

@@ -82,3 +82,6 @@ JOIN
     Harga h ON s.idSampah = h.idSampah
 JOIN
     SatuanKuantitas sq ON s.idSatuanKuantitas = sq.idSatuanKuantitas;
+
+ALTER TABLE Pengguna
+ADD COLUMN nama VARCHAR(255);
