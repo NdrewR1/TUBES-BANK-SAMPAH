@@ -21,12 +21,12 @@ CREATE TABLE Pengguna (
     idKel INT REFERENCES Kelurahan(idKel) NOT NULL
 );
 
-CREATE TYPE tipeTransaksiEnum AS ENUM ('maSatuanKuantitas', 'keluar');
+CREATE TYPE tipeTransaksiEnum AS ENUM ('SatuanKuantitas', 'keluar');
 
 CREATE TABLE Transaksi (
     idTransaksi SERIAL PRIMARY KEY,
     tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    tipeTransaksi tipeTransaksiEnum NOT NULL DEFAULT 'maSatuanKuantitas',
+    tipeTransaksi tipeTransaksiEnum NOT NULL DEFAULT 'SatuanKuantitas',
     idPengguna INT REFERENCES pengguna(idPengguna) NOT NULL
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE Jenis_Sampah (
 
 CREATE TABLE SatuanKuantitas (
     idSatuanKuantitas SERIAL PRIMARY KEY,
-    namaSatuanKuantitas VARCHAR(10) NOT NULL UNIQUE,
+    naSatuanKuantitas VARCHAR(10) NOT NULL UNIQUE,
     isActive BOOLEAN DEFAULT TRUE NOT NULL
 );
 
@@ -75,7 +75,7 @@ SELECT
     s.urlGambar AS gambar,
     s.namaSampah AS nama,
     h.hargaSampah AS harga,
-    sq.namaSatuanKuantitas AS satuanKuantitas
+    sq.naSatuanKuantitas AS satuanKuantitas
 FROM
     Sampah s
 JOIN
