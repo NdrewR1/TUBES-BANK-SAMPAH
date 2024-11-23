@@ -24,9 +24,24 @@ public class JdbcUserRepository implements UserRepository{
         return new User(
             resultSet.getString("email"),
             resultSet.getString("password"),
-            resultSet.getString("role")
+            resultSet.getString("role"),
+            resultSet.getInt("idPengguna"),
+            resultSet.getString("noHp"),
+            resultSet.getString("alamat"),
+            resultSet.getInt("idKel")
+            ,resultSet.getString("nama")
         );
     }
 
-    
+    @Override
+    public int addUser(String nama, String password, String noHp, String alamat, String email, int idKel) {
+        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel) VALUES('jos',?,'000','jln cig','email','1')";
+        return jdbcTemplate.update(sql,password);
+    }
+
+    @Override
+    public int addAdmin(String nama, String password, String noHp, String alamat, String email, int idKel,String role) {
+        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel,role) VALUES('drw',?,'111','jln cim','yahoo','1','admin')";
+        return jdbcTemplate.update(sql,password);
+    }
 }
