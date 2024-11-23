@@ -17,8 +17,11 @@ import com.example.BankSampah.model.kecamatan.KecamatanRepository;
 import com.example.BankSampah.model.user.User;
 import com.example.BankSampah.model.user.UserRepository;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 import org.springframework.security.core.Authentication;
 @Controller
@@ -30,7 +33,19 @@ public class LoginController {
     PasswordEncoder passwordEncoder;
 
     @PostMapping("/loginPage/login")
-    public String login(@RequestParam(required = true)String email,@RequestParam(required = true)String password, Model model, HttpServletRequest request){
+    public String login(@RequestParam(required = true)String email,@RequestParam(required = true)String password, Model model, HttpServletRequest request, HttpServletResponse response){
+        // model.addAttribute("error", "hai");
+        // return "login";
+        SecurityContextHolder.clearContext();
+        // Invalidate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Optional: remove cookies related to the session (if needed)
+        clearCookies(request, response);
+
         List<User> list = repo.findByEmail(email);
         if(list.size() == 0){
             model.addAttribute("error", "wrong email");
@@ -60,6 +75,19 @@ public class LoginController {
 
         HttpSession session = request.getSession(true);  // true: create session if not exist
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+    }
+
+    private void clearCookies(HttpServletRequest request, HttpServletResponse response) {
+    // Iterate over all cookies and remove them
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(null); // Remove cookie value
+                cookie.setMaxAge(0); // Expire the cookie immediately
+                cookie.setPath("/"); // Set the correct path
+                response.addCookie(cookie); // Add the expired cookie to the response
+            }
+        }
     }
 
     // @GetMapping("/add")

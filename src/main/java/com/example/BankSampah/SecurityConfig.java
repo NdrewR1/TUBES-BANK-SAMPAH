@@ -27,14 +27,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/loginPage","/login").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/", "/loginPage", "/loginPage/login","/registerPage", "/logoutPage", "/style.css", "uploads/image/**", "/add").permitAll()
+                .requestMatchers("/pemilik/**").hasRole("ADMIN")
                 .requestMatchers("/pengguna/**").hasRole("PENGGUNA")
-                .requestMatchers("/", "/registerPage", "/style.css", "uploads/image/**", "/add").permitAll()
+                .requestMatchers("/dashboard").authenticated()
                 .anyRequest().authenticated()
+                // .anyRequest().permitAll()
             )
                 .formLogin(form -> form
                 .loginPage("/loginPage")
+                .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
                 // .loginProcessingUrl("/loginPage/login")
             )
@@ -43,10 +45,11 @@ public class SecurityConfig {
             )
             .logout(logout -> logout
             .invalidateHttpSession(true)
+            .clearAuthentication(true)
             .logoutUrl("/logout")
                 .logoutSuccessUrl("/logoutPage")
+                .deleteCookies("JSESSIONID")
                 .permitAll()
-                .clearAuthentication(true)
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
