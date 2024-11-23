@@ -24,6 +24,11 @@
             <p>Belum punya akun? <a th:href="@{/registerPage}">Daftar di sini</a></p>
             <!-- <a href="pemilik/dashboard.html">TES PEMILIK</a><br> -->
             <!-- <a href="pengguna/dashboard.html">TES PENGGUNA</a>s -->
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+            <p th:text="${emaildijava}">tes</p>
+            <p th:text="${pwdijava}"></p>
         </section>
     </main>
 
