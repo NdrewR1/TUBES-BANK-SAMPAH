@@ -23,7 +23,8 @@ public class JdbcUserRepository implements UserRepository{
     public User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException {
         return new User(
             resultSet.getString("email"),
-            resultSet.getString("password")
+            resultSet.getString("password"),
+            resultSet.getString("role")
         );
     }
 
