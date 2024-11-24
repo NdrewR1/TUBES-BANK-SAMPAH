@@ -89,7 +89,7 @@ public class PemilikController {
         model.addAttribute("listUser", list);
         return "/pemilik/kelola_member";
     }
-
+    
     @GetMapping("/editMember")
     public String editMember(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
