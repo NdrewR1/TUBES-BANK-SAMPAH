@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Sampah {
-    String gambar;
-    String nama;
-    int harga;
-    String satuankuantitas;
+    int idSampah;
+    String urlGambar;
+    String namaSampah;
+    int idHargaSekarang;
+    int idSatuanKuantitas;
 }

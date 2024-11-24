@@ -14,13 +14,13 @@
     <main class="tambah">
         <section class="tambahMember">
             <h2>Tambah Sampah</h2>
-            <form>
-                <label for="jenis_sampah">Jenis Sampah:</label>
-                <input type="text" id="jenis_sampah" name="jenis_sampah" required>
-                <label for="satuan">Satuan:</label>
-                <input type="text" id="satuan" name="satuan" required>
-                <label for="harga_beli">Harga Beli (Rp):</label>
-                <input type="number" id="harga_beli" name="harga_beli" required>
+            <form action="/pemilik/tambahSampah/add" method="post">
+                <label for="namaSampah">Jenis Sampah:</label>
+                <input type="text" id="namaSampah" name="namaSampah" required>
+                <label for="satuanKuantitas">Satuan:</label>
+                <input type="text" id="satuanKuantitas" name="satuanKuantitas" required>
+                <label for="harga">Harga Beli (Rp):</label>
+                <input type="number" id="harga" name="harga" required>
                 <button type="submit">Tambah</button>
         </section>
     </main>

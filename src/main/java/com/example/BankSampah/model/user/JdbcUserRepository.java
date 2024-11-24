@@ -47,7 +47,7 @@ public class JdbcUserRepository implements UserRepository{
 
     @Override
     public int addAdmin(String nama, String password, String noHp, String alamat, String email, int idKel,String role) {
-        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel,role) VALUES('drw',?,'111','jln cim','yahoo','1','admin')";
+        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel,role) VALUES('Admin',?,'111','jln cim','admin','1','admin')";
         return jdbcTemplate.update(sql,password);
     }
 }
