@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuan;
+import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuanRepository;
 import com.example.BankSampah.model.sampah.Sampah;
 import com.example.BankSampah.model.sampah.SampahRepository;
 
@@ -17,11 +19,11 @@ import jakarta.servlet.http.HttpSession;
 public class indexController {
     
     @Autowired
-    SampahRepository repo;
+    NamaHargaSatuanRepository repo;
 
     @GetMapping("/")
     public String showAllSampah(Model model){
-        Iterable<Sampah> list = repo.findAll();
+        Iterable<NamaHargaSatuan> list = repo.findAll();
         model.addAttribute("sampahList", list);
         return "index";
     }

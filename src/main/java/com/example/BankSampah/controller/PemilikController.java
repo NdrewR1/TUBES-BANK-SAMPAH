@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.BankSampah.model.harga.Harga;
+import com.example.BankSampah.model.harga.HargaRepository;
 import com.example.BankSampah.model.kecamatan.Kecamatan;
 import com.example.BankSampah.model.kecamatan.KecamatanRepository;
 import com.example.BankSampah.model.kelurahan.Kelurahan;
 import com.example.BankSampah.model.kelurahan.KelurahanRepository;
+import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuan;
+import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuanRepository;
 import com.example.BankSampah.model.sampah.Sampah;
 import com.example.BankSampah.model.sampah.SampahRepository;
+import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitas;
+import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitasRepository;
 import com.example.BankSampah.model.user.User;
 import com.example.BankSampah.model.user.UserRepository;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -44,6 +50,18 @@ public class PemilikController {
     KelurahanRepository repoKel;
 
     @Autowired
+    SatuanKuantitasRepository repoSK;
+
+    @Autowired
+    SampahRepository repoSampah;
+    
+    @Autowired
+    HargaRepository repoHarga;
+
+    @Autowired
+    NamaHargaSatuanRepository repoSampahView;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
@@ -56,7 +74,7 @@ public class PemilikController {
                 if (authentication != null && authentication.isAuthenticated()) {
                     User user = (User) authentication.getPrincipal();
                     model.addAttribute("nama", user.getNama());
-                    Iterable<Sampah> list = repo.findAll();
+                    Iterable<NamaHargaSatuan> list = repoSampahView.findAll();
                     model.addAttribute("sampahList", list);
                 }
             }
@@ -108,7 +126,7 @@ public class PemilikController {
     @GetMapping("/kelolaSampah")
     public String showSampah(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
-        Iterable<Sampah> list = repo.findAll();
+        Iterable<NamaHargaSatuan> list = repoSampahView.findAll();
         model.addAttribute("listSampah", list);
         return "/pemilik/kelola_sampah";
     }
@@ -118,6 +136,32 @@ public class PemilikController {
         User user = getAuthentication(request);
         return "/pemilik/tambah_sampah";
     }
+
+    @PostMapping("/tambahSampah/add")
+    public String addSampah(
+        @RequestParam(required = true) String namaSampah,
+        @RequestParam(required = true) String satuanKuantitas, 
+        @RequestParam(required = true) String harga, 
+        Model model, HttpServletRequest request, RedirectAttributes redirectAttributes){
+            List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
+            if(listSK.isEmpty()){
+                repoSK.addSK(satuanKuantitas);
+            }
+            listSK = repoSK.findBy(satuanKuantitas);
+            SatuanKuantitas nowSK = listSK.get(0);
+            repoSampah.addSampah(namaSampah, nowSK.getIdSatuanKuantitas());
+
+            List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
+            Sampah nowSampah = listSampah.get(0);
+            repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+
+            List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+
+            Harga nowHarga = listHarga.get(0);
+            repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
+
+            return "redirect:/pemilik/kelolaSampah";
+        }
 
     @GetMapping("/transaksi")
     public String transaksiPage(Model model, HttpServletRequest request){

@@ -70,7 +70,7 @@ CREATE TABLE Transaksi_Masuk (
 
 CREATE TABLE Transaksi_Keluar(
     idTransaksiKeluar SERIAL PRIMARY KEY,
-    tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Transaksi_Keluar_Sampah(
@@ -119,10 +119,13 @@ SELECT
     s.urlGambar AS gambar,
     s.namaSampah AS nama,
     h.hargaSampah AS harga,
-    sq.naSatuanKuantitas AS satuanKuantitas
+    sq.namaSatuanKuantitas AS satuanKuantitas
 FROM
     Sampah s
 JOIN
     Harga h ON s.idSampah = h.idSampah
 JOIN
     SatuanKuantitas sq ON s.idSatuanKuantitas = sq.idSatuanKuantitas;
+
+INSERT INTO Kecamatan(namaKec) VALUES('kecamatan1');
+INSERT INTO Kelurahan(namaKel,idKec) VALUES('kelurahan1','1');
