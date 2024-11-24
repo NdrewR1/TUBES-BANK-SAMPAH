@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../style.css"> 
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header> 
-        <a href="kelola_sampah.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/pemilik/kelolaSampah}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Kelola Sampah</h1> 
     </header>
     <main class="tambah">

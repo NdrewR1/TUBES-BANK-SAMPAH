@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaksi - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Transaksi Penyetoran Sampah</h1>
     </header>
 
@@ -28,7 +28,7 @@
         </form> -->
         <div class="subJudul">
             <h2>Daftar Transaksi</h2>
-            <a href="tambah_transaksi.html"><button>Tambah Transaksi</button></a>
+            <a th:href="@{/pemilik/tambahTransaksi}"><button>Tambah Transaksi</button></a>
         </div>
         <table>
             <thead>

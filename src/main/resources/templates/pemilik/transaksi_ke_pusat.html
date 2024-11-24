@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../style.css"> 
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Penyetoran Sampah ke Pusat</h1>
     </header>
 
     <main>
         <div class="subJudul">
             <h2>Daftar Penyetoran</h2>
-            <a href="tambah_transaksi_ke_pusat.html"><button>Tambah Penyetoran</button></a>
+            <a th:href="@{/pemilik/tambahTransaksiKePusat}"><button>Tambah Penyetoran</button></a>
         </div>
         <table>
             <thead>

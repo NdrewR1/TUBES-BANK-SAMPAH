@@ -4,11 +4,11 @@
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <title>Kelola Member - Bank Sampah Daur Ulang</title> 
-        <link rel="stylesheet" href="../style.css"> 
+        <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
     </head> 
     <body> 
         <header> 
-            <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+            <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
             <h1>Kelola Member</h1> 
         </header>
         <main>
@@ -26,7 +26,7 @@
             </form> -->
             <div class="subJudul">
                 <h2>Daftar Member</h2>
-                <a href="tambah_member.html"><button>Tambah Member</button></a>
+                <a th:href="@{/pemilik/tambahMember}"><button>Tambah Member</button></a>
             </div>
             <table>
                 <thead>
@@ -39,11 +39,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Jane Doe</td>
-                        <td>08123456789</td>
-                        <td>jane@example.com</td>
-                        <td>Jl. Contoh No. 1, Bandung</td>
+                    <tr th:each="user : ${listUser}">
+                        <td th:text="${user.nama}"></td>
+                        <td th:text="${user.noHp}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.alamat}"></td>
                         <td><button>Edit</button> <button>Hapus</button></td>
                     </tr>
                 </tbody>
