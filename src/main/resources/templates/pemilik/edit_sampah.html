@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data Sampah</title>
+    <link rel="stylesheet" href="/src/main/resources/static/style.css">
+</head>
+<body>
+    <header>
+        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Edit Data Jenis Sampah</h1>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="kelola_sampah.html">Kelola Sampah</a></li>
+                <li><a href="kelola_member.html">Kelola Member</a></li>
+                <li><a href="transaksi.html">Transaksi</a></li>
+                <li><a href="transaksi_ke_pusat.html">Penyetoran ke Pusat</a></li>
+                <li><a href="laporan.html">Laporan</a></li>
+                <li><a href="../logout.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Formulir Pengubahan Data Sampah</h2>
+        <section    >
+            <!-- <form action="dashboard.html" method="post"> -->
+                <div>
+                    <label for="jenis-sampah">Nama Jenis Sampah:</label>
+                    <input type="text" id="jenis-sampah" name="jenis-sampah" value="Botol Plastik 600ml" required>  
+                </div>
+                <div>
+                    <label for="satuan">Satuan:</label>
+                    <input type="text" id="satuan" name="satuan" value="Buah" required>
+                </div>
+                <div>
+                    <label for="harga-beli">Harga Beli (Rp):</label>
+                    <input type="number" id="harga-beli" name="harga-beli" value="2000" required>
+                </div>
+                <div>
+                    
+                    <button type="submit">Simpan Perubahan</button>
+                    <a href="dashboard.html" class="button">
+                        <button>Batal</button></a>
+                </div>
+            <!-- </form> -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>
