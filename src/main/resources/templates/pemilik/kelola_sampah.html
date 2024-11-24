@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Jenis Sampah - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Kelola Sampah</h1>
     </header>
 
@@ -26,7 +26,7 @@
 
         <div class="subJudul">
             <h2>Daftar Sampah</h2>
-            <a href="tambah_sampah.html"><button>Tambah Sampah</button></a>
+            <a th:href="@{/pemilik/tambahSampah}"><button>Tambah Sampah</button></a>
         </div>
         <table>
             <thead>
@@ -38,10 +38,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Botol Plastik 600ml</td>
-                    <td>Buah</td>
-                    <td>2.000</td>
+                <tr th:each="sampah : ${listSampah}">
+                    <td th:text="${sampah.nama}"></td>
+                    <td th:text="${sampah.satuankuantitas}"></td>
+                    <td th:text="${sampah.harga}"></td>
                     <td><button>Edit</button> <button>Hapus</button></td>
                 </tr>
                 <!-- Tambahkan jenis sampah lainnya di sini -->

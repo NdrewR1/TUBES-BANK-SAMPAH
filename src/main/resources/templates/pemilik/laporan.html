@@ -5,11 +5,11 @@
     <meta name ```html
     ="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Laporan Keluar Masuk Sampah</h1>
     </header>
 

@@ -14,6 +14,12 @@ public class JdbcUserRepository implements UserRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    public List<User> findAll() {
+        String sql = "SELECT * FROM Pengguna";
+        return jdbcTemplate.query(sql, this::mapRowToUser);
+    }
+
+    @Override
     public List<User> findByEmail(String email) {
         String sql = "SELECT * FROM Pengguna WHERE email = ?";
         return jdbcTemplate.query(sql, this::mapRowToUser,email);
@@ -35,8 +41,8 @@ public class JdbcUserRepository implements UserRepository{
 
     @Override
     public int addUser(String nama, String password, String noHp, String alamat, String email, int idKel) {
-        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel) VALUES('jos',?,'000','jln cig','email','1')";
-        return jdbcTemplate.update(sql,password);
+        String sql = "INSERT INTO pengguna(nama,password,noHp,alamat,email,idKel) VALUES(?,?,?,?,?,?)";
+        return jdbcTemplate.update(sql,nama,password,noHp,alamat,email,idKel);
     }
 
     @Override
