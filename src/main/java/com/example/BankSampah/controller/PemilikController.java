@@ -90,6 +90,12 @@ public class PemilikController {
         return "/pemilik/kelola_member";
     }
 
+    @GetMapping("/editMember")
+    public String editMember(Model model, HttpServletRequest request) {
+        User user = getAuthentication(request);
+        return "/pemilik/edit_member";
+    }
+
     @GetMapping("/tambahMember")
     public String addMemberPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);

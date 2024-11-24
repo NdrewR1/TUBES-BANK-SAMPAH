@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Member - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="/src/main/resources/static/style.css">
-    <link rel="stylesheet" href="/src/main/resources/static/popup.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+    <link rel="stylesheet" href="popup.css" th:href="@{/popup.css}"
 </head>
 <body>
     <header>
@@ -47,7 +47,7 @@
         <div class="popup">
             <h3>Apakah Anda yakin ingin menghapus member ini?</h3>
             <div>
-                <button class="confirm" id="confirmDelete">Hapus</button>
+                <a th:href = '@{/pemilik/kelolaMember}'><button class="confirm" id="confirmDelete">Hapus</button></a>
                 <button class="cancel" id="cancelDelete">Batal</button>
             </div>
         </div>
@@ -67,7 +67,7 @@
         //redirect ke kelola_member.html
         confirmDelete.addEventListener('click', () => {
             popupOverlay.classList.remove('active');
-            window.location.href = 'kelola_member.html';
+            // window.location.href = 'kelola_member.html';
             //idk which one
             // window.location.href = '@{/pemilik/kelolaMember}' 
         });
