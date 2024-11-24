@@ -219,3 +219,7 @@ footer {
 .number-input button:hover {
     background-color: #ddd;
 }
+
+#current_page {
+    opacity: 75%;
+}
