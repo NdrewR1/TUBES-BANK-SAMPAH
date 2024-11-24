@@ -1,4 +1,4 @@
-package com.example.BankSampah.sampah;
+package com.example.BankSampah.model.sampah;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

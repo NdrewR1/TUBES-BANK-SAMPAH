@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Pendapatan - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body >
+    <header>
+        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Laporan Pendapatan</h1>
+    </header>
+
+    <main>
+        <h2>Laporan Pendapatan Anda</h2>
+        <form action="laporan_pendapatan.php" method="post">
+            <label for="start_date">Tanggal Mulai:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <label for="end_date">Tanggal Akhir:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            <button type="submit">Tampilkan Laporan</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Total Pendapatan (Rp)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01-10-2023</td>
+                    <td>10.000</td>
+                </tr>
+                <tr>
+                    <td>05-10-2023</td>
+                    <td>3.000</td>
+                </tr>
+                <!-- Tambahkan laporan pendapatan lainnya di sini -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>
