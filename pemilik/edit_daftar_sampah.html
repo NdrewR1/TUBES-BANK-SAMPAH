@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data Sampah - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../popup.css">
+</head>
+<body>
+    <header>
+        <a href="kelola_sampah.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Edit Data Sampah</h1>
+    </header>
+
+    <main>
+        <h2>Formulir Edit Jenis Sampah</h2>
+        <section>
+            <div>
+                <label for="jenis_sampah">Jenis Sampah:</label>
+                <input type="text" id="jenis_sampah" value="Botol Plastik 600ml">
+            </div>
+            <div>
+                <label for="satuan">Satuan:</label>
+                <input type="text" id="satuan" value="Buah">
+            </div>
+            <div>
+                <label for="harga_beli">Harga Beli (Rp):</label>
+                <input type="number" id="harga_beli" value="2000">
+            </div>
+            <div>
+                <button id="saveButton">Simpan Perubahan</button>
+                <button id="deleteButton">Hapus</button>
+                <a href="kelola_sampah.html" class="button"><button>Batal</button></a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+
+    <!-- Pop-up Konfirmasi -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h3>Apakah Anda yakin ingin menghapus data ini?</h3>
+            <div>
+                <button class="confirm" id="confirmDelete">Hapus</button>
+                <button class="cancel" id="cancelDelete">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //script pop up
+        const deleteButton = document.getElementById('deleteButton');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const cancelDelete = document.getElementById('cancelDelete');
+
+        deleteButton.addEventListener('click', () => {
+            popupOverlay.classList.add('active');
+        });
+
+        // Menghapus data dan redirect ke kelola_sampah.html
+        confirmDelete.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+            window.location.href = 'kelola_sampah.html'; // Simulasi penghapusan sukses
+        });
+
+        // Menutup pop-up jika tombol Batal ditekan
+        cancelDelete.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
