@@ -127,5 +127,20 @@ JOIN
 JOIN
     SatuanKuantitas sq ON s.idSatuanKuantitas = sq.idSatuanKuantitas;
 
+CREATE VIEW card AS
+SELECT 
+    s.namaSampah AS nama, 
+    h.hargaSampah AS harga, 
+    sk.namaSatuanKuantitas AS satuanKuantitas, 
+    inven.kuantitas as kuantitas
+FROM 
+    Inventory_Sampah inven 
+JOIN 
+    Sampah s ON inven.idSampah = s.idSampah
+JOIN 
+    Harga h ON s.idHargaSekarang = h.idHarga
+JOIN 
+    SatuanKuantitas sk ON sk.idSatuanKuantitas = s.idSatuanKuantitas
+
 INSERT INTO Kecamatan(namaKec) VALUES('kecamatan1');
 INSERT INTO Kelurahan(namaKel,idKec) VALUES('kelurahan1','1');
