@@ -24,7 +24,7 @@
     </header>
 
     <main>
-        <h2>Selamat datang, [Nama Pengelola]</h2>
+        <h2>Selamat datang, <span th:text="${nama}"></span></h2>
         <p>Pilih menu di atas untuk mengelola bank sampah.</p>
 
         <section id="harga">
@@ -32,26 +32,19 @@
             <table>
                 <thead>
                     <tr>
+                        <!-- <th>Gambar</th> -->
                         <th>Jenis Sampah</th>
                         <th>Satuan</th>
                         <th>Harga Beli (Rp)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Botol Plastik 600ml</td>
-                        <td>Buah</td>
-                        <td>2.000</td>
-                    </tr>
-                    <tr>
-                        <td>Kardus</td>
-                        <td>Kg</td>
-                        <td>1.500</td>
-                    </tr>
-                    <tr>
-                        <td>Kertas</td>
-                        <td>Kg</td>
-                        <td>1.000</td>
+                    <tr th:each="sampah : ${sampahList}">
+                        <!-- <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/> -->
+                        <!-- </td> -->
+                        <td th:text="${sampah.nama}"></td>
+                        <td th:text="${sampah.satuankuantitas}"></td>
+                        <td th:text="${sampah.harga}"></td>
                     </tr>
                 </tbody>
             </table>
