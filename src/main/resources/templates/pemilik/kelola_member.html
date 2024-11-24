@@ -9,7 +9,18 @@
     <body> 
         <header> 
             <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
-            <h1>Kelola Member</h1> 
+            <h1>Kelola Member</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                    <li><a th:href="@{/pemilik/kelolaSampah}">Kelola Sampah</a></li>
+                    <li><a th:href="@{/pemilik/kelolaMember}" id="current_page">Kelola Member</a></li>
+                    <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
+                    <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                    <li><a th:href="@{/pemilik/laporan}">Laporan</a></li>
+                    <li><a th:href="@{/logoutPage}">Logout</a></li>
+                </ul>
+            </nav>
         </header>
         <main>
             <!-- <h2>Tambah Member</h2>
@@ -44,7 +55,7 @@
                         <td th:text="${user.noHp}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.alamat}"></td>
-                        <td><button>Edit</button> <button>Hapus</button></td>
+                        <td><a th:href="@{/pemilik/editMember}"><button>Edit</button></a></td>
                     </tr>
                 </tbody>
             </table>

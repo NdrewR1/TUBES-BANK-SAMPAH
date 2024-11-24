@@ -10,6 +10,17 @@
     <header>
         <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Kelola Sampah</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/pemilik/kelolaSampah}" id="current_page">Kelola Sampah</a></li>
+                <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
+                <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
+                <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                <li><a th:href="@{/pemilik/laporan}">Laporan</a></li>
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
@@ -42,7 +53,7 @@
                     <td th:text="${sampah.nama}"></td>
                     <td th:text="${sampah.satuankuantitas}"></td>
                     <td th:text="${sampah.harga}"></td>
-                    <td><button>Edit</button> <button>Hapus</button></td>
+                    <td><button>Edit</button></td>
                 </tr>
                 <!-- Tambahkan jenis sampah lainnya di sini -->
             </tbody>

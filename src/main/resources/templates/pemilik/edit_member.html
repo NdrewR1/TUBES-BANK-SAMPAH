@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Member - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+    <link rel="stylesheet" href="popup.css" th:href="@{/popup.css}"
+</head>
+<body>
+    <header>
+        <a href="kelola_member.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Edit Member</h1>
+    </header>
+    <main>
+        <h2>Formulir Edit Data Member</h2>
+        <section>
+            <div>
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" value="Jane Doe">
+            </div>
+            <div>
+                <label for="nomor_hp">Nomor HP:</label>
+                <input type="text" id="nomor_hp" value="08123456789">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="jane@example.com">
+            </div>
+            <div>
+                <label for="alamat">Alamat:</label>
+                <input type="text" id="alamat" value="Jl. Contoh No. 1, Bandung">
+            </div>
+            <div>
+                <button id="saveButton">Simpan Perubahan</button>
+                <button id="deleteButton">Hapus</button>
+                <a th:href="@{/pemilik/kelolaMember}" class="button"><button>Batal</button></a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+
+        <!-- Pop-up Konfirmasi -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h3>Apakah Anda yakin ingin menghapus member ini?</h3>
+            <div>
+                <a th:href = '@{/pemilik/kelolaMember}'><button class="confirm" id="confirmDelete">Hapus</button></a>
+                <button class="cancel" id="cancelDelete">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //script pop up
+        const deleteButton = document.getElementById('deleteButton');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const confirmDelete = document.getElementById('confirmDelete');
+        const cancelDelete = document.getElementById('cancelDelete');
+
+        deleteButton.addEventListener('click', () => {
+            popupOverlay.classList.add('active');
+        });
+
+        //redirect ke kelola_member.html
+        confirmDelete.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+            // window.location.href = 'kelola_member.html';
+            //idk which one
+            // window.location.href = '@{/pemilik/kelolaMember}' 
+        });
+
+        // Menutup pop-up jika tombol Batal ditekan
+        cancelDelete.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
