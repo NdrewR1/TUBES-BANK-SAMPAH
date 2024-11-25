@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -132,10 +133,29 @@ public class PemilikController {
         return "/pemilik/kelola_member";
     }
     
-    @GetMapping("/editMember")
-    public String editMember(Model model, HttpServletRequest request) {
+    @GetMapping("/editMember/{email}")
+    public String editMemberPage(@PathVariable("email") String email, Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
+        User now = repoUser.findByEmail(email).get(0);
+        model.addAttribute("nama", now.getNama());
+        model.addAttribute("nomor_hp", now.getNoHp());
+        model.addAttribute("email", now.getEmail());
+        model.addAttribute("alamat", now.getAlamat());
         return "/pemilik/edit_member";
+    }
+
+    @PostMapping("/editMember/{emailOld}/ubah")
+    public String ubahMember(
+        @PathVariable("emailOld") String oldEmail,
+        @RequestParam String nama,
+        @RequestParam String nomor_hp,
+        @RequestParam String email,
+        @RequestParam String alamat,
+        Model model, HttpServletRequest request){
+        User user = getAuthentication(request);
+        User now = repoUser.findByEmail(oldEmail).get(0);
+        repoUser.updateUser(now.getIdPengguna(), nama, nomor_hp, alamat, email);
+        return "redirect:/pemilik/kelolaMember";
     }
 
     @GetMapping("/tambahMember")
