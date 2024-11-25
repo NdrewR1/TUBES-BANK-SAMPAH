@@ -17,7 +17,7 @@
                 <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
                 <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
                 <li><a th:href="@{/pemilik/transaksiKePusat}" id="current_page">Penyetoran ke Pusat</a></li>
-                <li><a th:href="@{/pemilik/laporan}">Laporan</a></li>
+                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
                 <li><a th:href="@{/logoutPage}">Logout</a></li>
             </ul>
         </nav>
@@ -34,15 +34,21 @@
                     <th>Tanggal</th>
                     <th>Jenis Sampah</th>
                     <th>Kuantitas</th>
+                    <th>SatuanKuantitas</th>
+                    <th>SubTotal (Rp)</th>
                     <th>Total (Rp)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>01-10-2023</td>
-                    <td>Botol Plastik 600ml</td>
-                    <td>5</td>
-                    <td>10.000</td>
+                <tr th:each="transaksi, iterStat : ${listTransaksiMasuk}">
+                    <td th:text="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index-1].tanggal != transaksi.tanggal) ? transaksi.tanggal : ''}"></td>
+                    <td th:text="${transaksi.namaSampah}"></td>
+                    <td th:text="${transaksi.jumlahSampah}"></td>
+                    <td th:text="${transaksi.satuanKuantitas}"></td>
+                    <td th:text="${transaksi.subTotal}"></td>
+
+                    <td th:if="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index - 1].tanggal != transaksi.tanggal)}" 
+                        th:text="${transaksi.total}"></td>
                 </tr>
             </tbody>
         </table>
