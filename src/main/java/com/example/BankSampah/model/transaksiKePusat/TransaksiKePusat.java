@@ -9,7 +9,9 @@ public class TransaksiKePusat {
     private String tanggal;
     private String namaSampah;
     private int jumlahSampah;
+    private String satuanKuantitas;
     private double subTotal;
+    private int total;
 }
 
 

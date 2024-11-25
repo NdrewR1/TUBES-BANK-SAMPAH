@@ -8,6 +8,6 @@ import java.util.List;
 public interface TransaksiKeluarRepository {
     List<TransaksiKeluar> findAll();
     List<TransaksiKeluar> findByDate(Timestamp time);
-    int addTransaksiKeluar(Timestamp time);
+    int addTransaksiKeluar();
     TransaksiKeluar mapRowToTransaksiKeluar(ResultSet resultSet, int rowNum) throws SQLException;
 }

@@ -216,7 +216,7 @@ public class PemilikController {
     public String transaksiPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         List<TransaksiKeDalam> listTransaksi = repoTransaksiKeDalam.findAll();
-        model.addAttribute("listTransaksiMasuk", listTransaksi);
+        model.addAttribute("listTransaksi", listTransaksi);
 
         // Map<String, List<TransaksiKeDalam>> groupedTransaksi = listTransaksi.stream()
         //     .collect(Collectors.groupingBy(t -> t.getTanggal().toString() +"="+ t.getNamaPengguna()));
@@ -246,7 +246,7 @@ public class PemilikController {
         return "/pemilik/tambah_transaksi";
     }
 
-    @PostMapping("tambahTransaksi/add")
+    @PostMapping("/tambahTransaksi/add")
     public String addTransaksi(
         @RequestParam("member") String member,
         @RequestParam("nama[]") List<String> nama,
@@ -281,6 +281,8 @@ public class PemilikController {
     @GetMapping("/transaksiKePusat")
     public String transaksiPusatPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
+        List<TransaksiKePusat> list = repoTransaksiKePusat.findAll();
+        model.addAttribute("listTransaksiMasuk", list);
         return "/pemilik/transaksi_ke_pusat";
     }
 
@@ -292,7 +294,7 @@ public class PemilikController {
         return "/pemilik/tambah_transaksi_ke_pusat";
     }
 
-    @PostMapping("tambahTransaksiKePusat/add")
+    @PostMapping("/tambahTransaksiKePusat/add")
     public String addTransaksiPusat(
         @RequestParam("nama[]") List<String> nama,
         @RequestParam("harga[]") List<String> harga,
@@ -301,10 +303,7 @@ public class PemilikController {
     Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         if(nama.size()>0){
-            Timestamp nowTime = new Timestamp(System.currentTimeMillis());
-            repoTransaksiKeluar.addTransaksiKeluar(nowTime);
-            List<TransaksiKeluar> listTransaksiKeluar = repoTransaksiKeluar.findByDate(nowTime);
-            TransaksiKeluar transaksiKeluar = listTransaksiKeluar.get(0);
+            int idTransaksiKeluar = repoTransaksiKeluar.addTransaksiKeluar();
             for (int i = 0; i < nama.size(); i++) {
                 String itemNama = nama.get(i);
                 String itemHarga = harga.get(i);
@@ -315,14 +314,14 @@ public class PemilikController {
                 int idSampah = yangDipilih.getIdSampah();
                 int idHarga = yangDipilih.getIdHargaSekarang();
                 int kuantitasSaatIni = Integer.parseInt(itemKuantitas);
-                repoTransaksiKeluarSampah.addTransaksiKeluarSampah(transaksiKeluar.getIdTransaksiKeluar(), idSampah, kuantitasSaatIni, idHarga);
+                repoTransaksiKeluarSampah.addTransaksiKeluarSampah(idTransaksiKeluar, idSampah, kuantitasSaatIni, idHarga);
 
                 int kuantitasDiDB = repoInvent.findByIdSampah(idSampah).get(0).getKuantitas();
                 kuantitasDiDB -= kuantitasSaatIni;
                 repoInvent.updateKuantitas(kuantitasDiDB, idSampah);
             }
         }
-        return "redirect:/pemilik/tambahTransaksi";
+        return "redirect:/pemilik/transaksiKePusat";
     }
 
     @GetMapping("/laporan")

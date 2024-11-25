@@ -27,9 +27,10 @@ public class JdbcTransaksiKeluarRepository implements TransaksiKeluarRepository 
     }
 
     @Override
-    public int addTransaksiKeluar(Timestamp time) {
-        String sql = "INSERT INTO Transaksi_Keluar(tanggal) VALUES(?)";
-        return jdbcTemplate.update(sql,time);
+    public int addTransaksiKeluar() {
+        String sql = "INSERT INTO Transaksi_Keluar DEFAULT VALUES RETURNING idTransaksiKeluar";
+        int idTransaksiKeluar = jdbcTemplate.queryForObject(sql,Integer.class);
+        return idTransaksiKeluar;
     }
 
     @Override

@@ -25,7 +25,9 @@ public class JdbcTransaksiKePusatRepository implements TransaksiKePusatRepositor
             resultSet.getString("tanggal"), 
         resultSet.getString("namaSampah"), 
         resultSet.getInt("jumlahSampah"), 
-        resultSet.getDouble("subTotal"));
+        resultSet.getString("satuanKuantitas"),
+        resultSet.getDouble("subTotal"),
+        resultSet.getInt("total"));
     }
 
     
