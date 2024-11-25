@@ -216,7 +216,7 @@ public class PemilikController {
     public String transaksiPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         List<TransaksiKeDalam> listTransaksi = repoTransaksiKeDalam.findAll();
-        model.addAttribute("listTransaksi", listTransaksi);
+        model.addAttribute("listTransaksiMasuk", listTransaksi);
 
         // Map<String, List<TransaksiKeDalam>> groupedTransaksi = listTransaksi.stream()
         //     .collect(Collectors.groupingBy(t -> t.getTanggal().toString() +"="+ t.getNamaPengguna()));
