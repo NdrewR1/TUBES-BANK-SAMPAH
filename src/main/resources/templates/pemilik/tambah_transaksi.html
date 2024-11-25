@@ -17,7 +17,7 @@
                 <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
                 <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
                 <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
-                <li><a th:href="@{/pemilik/laporan}">Laporan</a></li>
+                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
                 <li><a th:href="@{/logoutPage}">Logout</a></li>
             </ul>
         </nav>
@@ -93,17 +93,15 @@
     <script>
         // Get all the card elements
         const cards = document.querySelectorAll('.card');
-        
+
         // Get form for submitting data
         const form = document.querySelector('form');
-        
+
         // Get the container to display selected items
         const selectedItemsList = document.getElementById('selected-items-list');
-        
+
         // Track selected items
         let selectedItemsData = [];
-    
-        // Event listener for each card
 
         // Event listener for each card
         cards.forEach(card => {
@@ -114,7 +112,6 @@
                 const satuan = card.getAttribute('data-satuan');
                 const kuantitas = card.getAttribute('data-kuantitas');
                 const inputKuantitas = card.querySelector('input').value; // Get the value from input
-                console.log(nama,harga,satuan,kuantitas,inputKuantitas);
 
                 // Find if the item is already selected
                 const selectedItemIndex = selectedItemsData.findIndex(item => item.nama === nama);
@@ -125,6 +122,8 @@
                         // Remove item from the selected items list and summary if quantity is 0
                         selectedItemsData.splice(selectedItemIndex, 1);
                         removeItemFromSummary(nama);
+                        // Reset the input value on the card to 0 as well
+                        card.querySelector('input').value = 0;
                     } else {
                         // Update the quantity of the selected item
                         selectedItemsData[selectedItemIndex].kuantitas = inputKuantitas;
@@ -139,7 +138,7 @@
                             satuan,
                             kuantitas: inputKuantitas
                         });
-                        addItemToSummary(nama, harga, satuan,kuantitas, inputKuantitas);
+                        addItemToSummary(nama, harga, satuan, kuantitas, inputKuantitas);
                     }
                 }
 
@@ -149,8 +148,7 @@
         });
 
         // Add item to the summary list
-        function addItemToSummary(nama, harga, satuan,kuantitas, inputKuantitas) {
-            console.log(kuantitas);
+        function addItemToSummary(nama, harga, satuan, kuantitas, inputKuantitas) {
             const listItem = document.createElement('li');
             listItem.dataset.nama = nama;
 
@@ -163,24 +161,29 @@
             quantityInput.value = inputKuantitas;
             quantityInput.min = 0;
 
-            // // Instead of creating an input field, create a span to display the quantity
-            // const quantityInput = document.createElement('span');
-            // quantityInput.classList.add('quantity-text'); // You can add custom classes here for styling
-            // quantityInput.textContent = inputKuantitas;  // Set the text content to the input quantity
-
-            quantityInput.addEventListener('input', function() {
+            // When the quantity in the summary changes, update the item in the selected items array and the card input
+            quantityInput.addEventListener('input', function () {
                 const quantity = parseInt(quantityInput.value, 10);
                 if (quantity === 0) {
                     // If quantity becomes 0, remove item
                     selectedItemsData = selectedItemsData.filter(item => item.nama !== nama);
                     selectedItemsList.removeChild(listItem);
-                    updateFormInputs();
+                    // Reset the quantity in the card input field as well
+                    const card = document.querySelector(`.card[data-nama="${nama}"]`);
+                    if (card) {
+                        card.querySelector('input').value = 0;
+                    }
                 } else {
                     // Update the quantity in the list and in the selected items data
                     const selectedItem = selectedItemsData.find(item => item.nama === nama);
                     selectedItem.kuantitas = quantity;
-                    updateFormInputs();
+                    // Update the corresponding card input field
+                    const card = document.querySelector(`.card[data-nama="${nama}"]`);
+                    if (card) {
+                        card.querySelector('input').value = quantity;
+                    }
                 }
+                updateFormInputs();
             });
 
             const spanStok = document.createElement('span');
@@ -245,6 +248,7 @@
                 form.appendChild(inputKuantitas);
             });
         }
+
     </script>
 </body>
 </html>

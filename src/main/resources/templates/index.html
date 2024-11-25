@@ -23,7 +23,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Gambar</th>
+                        <!-- <th>Gambar</th> -->
                         <th>Jenis Sampah</th>
                         <th>Satuan</th>
                         <th>Harga Beli (Rp)</th>
@@ -31,8 +31,8 @@
                 </thead>
                 <tbody>
                     <tr th:each="sampah : ${sampahList}">
-                        <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/>
-                        </td>
+                        <!-- <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/>
+                        </td> -->
                         <td th:text="${sampah.nama}"></td>
                         <td th:text="${sampah.satuankuantitas}"></td>
                         <td th:text="${sampah.harga}"></td>
