@@ -24,13 +24,6 @@ CREATE TABLE Pengguna (
 
 CREATE TYPE tipeTransaksiEnum AS ENUM ('SatuanKuantitas', 'keluar');
 
-CREATE TABLE Transaksi (
-    idTransaksi SERIAL PRIMARY KEY,
-    tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    tipeTransaksi tipeTransaksiEnum NOT NULL DEFAULT 'SatuanKuantitas',
-    idPengguna INT REFERENCES pengguna(idPengguna) NOT NULL
-);
-
 CREATE TABLE SatuanKuantitas (
     idSatuanKuantitas SERIAL PRIMARY KEY,
     namaSatuanKuantitas VARCHAR(10) NOT NULL UNIQUE,
@@ -140,7 +133,44 @@ JOIN
 JOIN 
     Harga h ON s.idHargaSekarang = h.idHarga
 JOIN 
-    SatuanKuantitas sk ON sk.idSatuanKuantitas = s.idSatuanKuantitas
+    SatuanKuantitas sk ON sk.idSatuanKuantitas = s.idSatuanKuantitas;
+
+CREATE VIEW transaksiKePusat AS
+SELECT
+    tk.tanggal AS tanggal,
+    s.namaSampah AS namaSampah,
+    tks.jumlahSampah AS jumlahSampah,
+    (tks.jumlahSampah * h.hargaSampah) AS subTotal
+FROM
+    Transaksi_Keluar tk
+JOIN
+    Transaksi_Keluar_Sampah tks ON tk.idTransaksiKeluar = tks.idTransaksiKeluar
+JOIN
+    Sampah s ON tks.idSampah = s.idSampah
+JOIN
+    Harga h ON s.idHargaSekarang = h.idHarga;
+
+CREATE VIEW transaksiMasuk AS
+SELECT
+    tm.tanggal AS tanggal,
+    p.nama AS namaPengguna,
+    s.namaSampah AS namaSampah,
+    tms.jumlahSampah AS jumlahSampah,
+    sk.namaSatuanKuantitas AS satuanKuantitas,
+    (tms.jumlahSampah * h.hargaSampah) AS subTotal,
+    SUM(tms.jumlahSampah * h.hargaSampah) OVER (PARTITION BY tm.tanggal, p.nama) AS total
+FROM
+    Transaksi_Masuk tm
+JOIN
+    Transaksi_Masuk_Sampah tms ON tm.idTransaksiMasuk = tms.idTransaksiMasuk
+JOIN
+    Sampah s ON tms.idSampah = s.idSampah
+JOIN
+    Harga h ON tms.idHarga = h.idHarga
+JOIN
+    Pengguna p ON tm.idPengguna = p.idPengguna
+JOIN
+    SatuanKuantitas sk ON s.idSatuanKuantitas = sk.idSatuanKuantitas;
 
 INSERT INTO Kecamatan(namaKec) VALUES('kecamatan1');
 INSERT INTO Kelurahan(namaKel,idKec) VALUES('kelurahan1','1');
