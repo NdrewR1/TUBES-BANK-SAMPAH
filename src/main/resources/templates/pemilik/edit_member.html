@@ -9,33 +9,35 @@
 </head>
 <body>
     <header>
-        <a href="kelola_member.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/pemilik/kelolaMember}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Edit Member</h1>
     </header>
     <main>
         <h2>Formulir Edit Data Member</h2>
         <section>
-            <div>
-                <label for="nama">Nama:</label>
-                <input type="text" id="nama" value="Jane Doe">
-            </div>
-            <div>
-                <label for="nomor_hp">Nomor HP:</label>
-                <input type="text" id="nomor_hp" value="08123456789">
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" value="jane@example.com">
-            </div>
-            <div>
-                <label for="alamat">Alamat:</label>
-                <input type="text" id="alamat" value="Jl. Contoh No. 1, Bandung">
-            </div>
-            <div>
-                <button id="saveButton">Simpan Perubahan</button>
-                <button id="deleteButton">Hapus</button>
-                <a th:href="@{/pemilik/kelolaMember}" class="button"><button>Batal</button></a>
-            </div>
+            <form th:action="@{/pemilik/editMember/{emailOld}/ubah(emailOld=${email})}" method="post">
+                <div>
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" th:value="${nama}">
+                </div>
+                <div>
+                    <label for="nomor_hp">Nomor HP:</label>
+                    <input type="text" id="nomor_hp" name="nomor_hp" th:value="${nomor_hp}">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" th:value="${email}">
+                </div>
+                <div>
+                    <label for="alamat">Alamat:</label>
+                    <input type="text" id="alamat" name="alamat" th:value="${alamat}">
+                </div>
+                <div>
+                    <button id="saveButton" type="submit">Simpan Perubahan</button>
+                </div>
+            </form>
+            <button id="deleteButton">Hapus</button>
+            <a th:href="@{/pemilik/kelolaMember}" class="button"><button>Batal</button></a>
         </section>
     </main>
     <footer>

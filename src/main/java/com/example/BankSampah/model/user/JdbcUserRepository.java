@@ -25,6 +25,14 @@ public class JdbcUserRepository implements UserRepository{
         return jdbcTemplate.query(sql, this::mapRowToUser,email);
     }
 
+    
+
+    @Override
+    public int updateUser(int idPengguna, String nama, String noHp, String alamat, String email) {
+        String sql = "UPDATE Pengguna SET nama = ?, noHp = ?, alamat = ?, email = ? WHERE idPengguna = ?";
+        return jdbcTemplate.update(sql, nama, noHp, alamat, email, idPengguna);
+    }
+
     @Override
     public User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException {
         return new User(

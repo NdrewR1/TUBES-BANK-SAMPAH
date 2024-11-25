@@ -55,7 +55,7 @@
                         <td th:text="${user.noHp}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.alamat}"></td>
-                        <td><a th:href="@{/pemilik/editMember}"><button>Edit</button></a></td>
+                        <td><a th:href="@{/pemilik/editMember/{email}(email=${user.email})}"><button>Edit</button></a></td>
                     </tr>
                 </tbody>
             </table>
