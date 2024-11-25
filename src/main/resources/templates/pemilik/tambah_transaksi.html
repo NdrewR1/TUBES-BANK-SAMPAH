@@ -37,33 +37,6 @@
                 </div>
             </div>
         </section>
-        <!-- <section class="card-container"> -->
-            <!-- <div class="card">
-                <div class="keteranganCard">
-                    <h3>Botol Plastik 600ml</h3>
-                    <p>Harga: 2000/buah</p>
-                </div>
-                
-                
-                <div class="number-input">
-                    Kuantitas:
-                    <input type="number" id="number" value="0" min="0" />
-                </div>
-            </div>
-            <div class="card">
-                <div class="keteranganCard">
-                    <h3>Kardus</h3>
-                    <p>Harga: 1500/kg</p>
-                </div>
-                
-                
-                <div class="number-input">
-                    Kuantitas:
-                    <input type="number" id="number" value="0" min="0" />
-                </div>
-            </div> -->
-            
-        <!-- </section> -->
         <section class="tambahMember">
             <h2>Rekam Transaksi</h2>
             <form method="post" action="/pemilik/tambahTransaksi/add">
@@ -74,15 +47,11 @@
                             th:value="${pengguna.idPengguna}" 
                             th:text="${pengguna.nama}"></option>
                 </select>
-                <!-- <label for="jenis_sampah">Jenis Sampah:</label>
-                <input type="text" id="jenis_sampah" name="jenis_sampah" required>
-                <label for="kuantitas">Kuantitas:</label>
-                <input type="number" id="kuantitas" name="kuantitas" required> -->
                 <button type="submit">Rekam Transaksi</button>
             </form>
             <h2>Summary</h2>
             <ul id="selected-items-list">
-                <!-- Selected items will appear here -->
+
             </ul>
         </section>
     </main>
@@ -91,46 +60,33 @@
         <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
     </footer>
     <script>
-        // Get all the card elements
         const cards = document.querySelectorAll('.card');
-
-        // Get form for submitting data
+        
         const form = document.querySelector('form');
-
-        // Get the container to display selected items
+        
         const selectedItemsList = document.getElementById('selected-items-list');
-
-        // Track selected items
+        
         let selectedItemsData = [];
-
-        // Event listener for each card
+       
         cards.forEach(card => {
             card.addEventListener('click', function() {
-                // Get data from the clicked card
                 const nama = card.getAttribute('data-nama');
                 const harga = card.getAttribute('data-harga');
                 const satuan = card.getAttribute('data-satuan');
                 const kuantitas = card.getAttribute('data-kuantitas');
-                const inputKuantitas = card.querySelector('input').value; // Get the value from input
-
-                // Find if the item is already selected
+                const inputKuantitas = card.querySelector('input').value; 
                 const selectedItemIndex = selectedItemsData.findIndex(item => item.nama === nama);
 
                 if (selectedItemIndex !== -1) {
-                    // If item is already selected, update quantity or remove if it's 0
                     if (inputKuantitas == 0) {
-                        // Remove item from the selected items list and summary if quantity is 0
                         selectedItemsData.splice(selectedItemIndex, 1);
                         removeItemFromSummary(nama);
-                        // Reset the input value on the card to 0 as well
                         card.querySelector('input').value = 0;
                     } else {
-                        // Update the quantity of the selected item
                         selectedItemsData[selectedItemIndex].kuantitas = inputKuantitas;
                         updateItemInSummary(nama, inputKuantitas);
                     }
                 } else {
-                    // If the item is not in the selected list, add it
                     if (inputKuantitas > 0) {
                         selectedItemsData.push({
                             nama,
@@ -142,7 +98,6 @@
                     }
                 }
 
-                // Update the hidden inputs for form submission
                 updateFormInputs();
             });
         });
@@ -161,23 +116,18 @@
             quantityInput.value = inputKuantitas;
             quantityInput.min = 0;
 
-            // When the quantity in the summary changes, update the item in the selected items array and the card input
             quantityInput.addEventListener('input', function () {
                 const quantity = parseInt(quantityInput.value, 10);
                 if (quantity === 0) {
-                    // If quantity becomes 0, remove item
                     selectedItemsData = selectedItemsData.filter(item => item.nama !== nama);
                     selectedItemsList.removeChild(listItem);
-                    // Reset the quantity in the card input field as well
                     const card = document.querySelector(`.card[data-nama="${nama}"]`);
                     if (card) {
                         card.querySelector('input').value = 0;
                     }
                 } else {
-                    // Update the quantity in the list and in the selected items data
                     const selectedItem = selectedItemsData.find(item => item.nama === nama);
                     selectedItem.kuantitas = quantity;
-                    // Update the corresponding card input field
                     const card = document.querySelector(`.card[data-nama="${nama}"]`);
                     if (card) {
                         card.querySelector('input').value = quantity;
@@ -197,7 +147,6 @@
             selectedItemsList.appendChild(listItem);
         }
 
-        // Update item in the summary list if the quantity changes
         function updateItemInSummary(nama, kuantitas) {
             const item = selectedItemsList.querySelector(`li[data-nama="${nama}"]`);
             if (item) {
@@ -206,7 +155,6 @@
             }
         }
 
-        // Remove item from the summary list
         function removeItemFromSummary(nama) {
             const item = selectedItemsList.querySelector(`li[data-nama="${nama}"]`);
             if (item) {
@@ -214,12 +162,9 @@
             }
         }
 
-        // Function to update the form with selected items
         function updateFormInputs() {
-            // Clear any existing hidden inputs
             form.querySelectorAll('input[type="hidden"]').forEach(input => input.remove());
 
-            // Get the selected items and add them to the form
             selectedItemsData.forEach(item => {
                 const inputNama = document.createElement('input');
                 inputNama.type = 'hidden';
@@ -241,7 +186,6 @@
                 inputKuantitas.name = 'kuantitas[]';
                 inputKuantitas.value = item.kuantitas;
 
-                // Append the new hidden inputs to the form
                 form.appendChild(inputNama);
                 form.appendChild(inputHarga);
                 form.appendChild(inputSatuan);
