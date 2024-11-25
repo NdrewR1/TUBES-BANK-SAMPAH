@@ -38,6 +38,12 @@ public class JdbcSampahRepository implements SampahRepository {
     }
 
     @Override
+    public int addToInvent(int idSampah) {
+        String sql = "INSERT INTO Inventory_Sampah(idSampah) VALUES(?)";
+        return jdbcTemplate.update(sql, idSampah);
+    }
+
+    @Override
     public Sampah mapRowToSampah(ResultSet resultSet, int rowNum) throws SQLException {
         return new Sampah(
             resultSet.getInt("idSampah"),

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.BankSampah.model.card.Card;
+import com.example.BankSampah.model.card.CardRepository;
 import com.example.BankSampah.model.harga.Harga;
 import com.example.BankSampah.model.harga.HargaRepository;
 import com.example.BankSampah.model.kecamatan.Kecamatan;
@@ -26,6 +28,8 @@ import com.example.BankSampah.model.sampah.Sampah;
 import com.example.BankSampah.model.sampah.SampahRepository;
 import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitas;
 import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitasRepository;
+import com.example.BankSampah.model.transaksiKePusat.TransaksiKePusat;
+import com.example.BankSampah.model.transaksiKePusat.TransaksiKePusatRepository;
 import com.example.BankSampah.model.user.User;
 import com.example.BankSampah.model.user.UserRepository;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -60,6 +64,12 @@ public class PemilikController {
 
     @Autowired
     NamaHargaSatuanRepository repoSampahView;
+
+    @Autowired
+    TransaksiKePusatRepository repoTransaksiKePusat;
+
+    @Autowired
+    CardRepository repoCard;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -160,6 +170,7 @@ public class PemilikController {
             List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
             Sampah nowSampah = listSampah.get(0);
             repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+            repoSampah.addToInvent(nowSampah.getIdSampah());
 
             List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
 
@@ -178,6 +189,8 @@ public class PemilikController {
     @GetMapping("/tambahTransaksi")
     public String addTransaksiPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
+        List<Card> list = repoCard.findAll();
+        model.addAttribute("listKet", list);
         return "/pemilik/tambah_transaksi";
     }
 
@@ -190,7 +203,29 @@ public class PemilikController {
     @GetMapping("/tambahTransaksiKePusat")
     public String addTransaksiPusatPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
+        List<Card> list = repoCard.findAll();
+        model.addAttribute("listKet", list);
         return "/pemilik/tambah_transaksi_ke_pusat";
+    }
+
+    @PostMapping("tambahTransaksiKePusat/add")
+    public String addTransaksiPusat(
+        @RequestParam("nama[]") List<String> nama,
+        @RequestParam("harga[]") List<String> harga,
+        @RequestParam("satuan[]") List<String> satuan,
+        @RequestParam("kuantitas[]") List<String> kuantitas,    
+    Model model, HttpServletRequest request){
+        User user = getAuthentication(request);
+        if(nama.size()>0){
+            
+            for (int i = 0; i < nama.size(); i++) {
+                String itemNama = nama.get(i);
+                String itemHarga = harga.get(i);
+                String itemSatuan = satuan.get(i);
+                String itemKuantitas = kuantitas.get(i);
+            }
+        }
+        return "error";
     }
 
     @GetMapping("/laporan")

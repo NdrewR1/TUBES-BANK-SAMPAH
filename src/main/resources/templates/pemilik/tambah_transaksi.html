@@ -24,7 +24,21 @@
     </header>
     <main class="tambah">
         <section class="card-container">
-            <div class="card">
+            <div th:each="keterangan : ${listKet}" class="card" th:data-nama="${keterangan.nama}" th:data-harga="${keterangan.harga}" th:data-satuan="${keterangan.satuanKuantitas}" th:data-kuantitas="${keterangan.kuantitas}">
+                <div class="keteranganCard">
+                    <h3 th:text="${keterangan.nama}"></h3>
+                    <p>Harga: <span th:text="${keterangan.harga}"></span>/<span th:text="${keterangan.satuanKuantitas}"></span></p>
+                </div>
+                <p>Stok saat ini: <span th:text="${keterangan.kuantitas}"></span></p>
+                
+                <div class="number-input">
+                    Kuantitas:
+                    <input type="number" id="number" value="0" min="0" />
+                </div>
+            </div>
+        </section>
+        <!-- <section class="card-container"> -->
+            <!-- <div class="card">
                 <div class="keteranganCard">
                     <h3>Botol Plastik 600ml</h3>
                     <p>Harga: 2000/buah</p>
@@ -47,9 +61,9 @@
                     Kuantitas:
                     <input type="number" id="number" value="0" min="0" />
                 </div>
-            </div>
+            </div> -->
             
-        </section>
+        <!-- </section> -->
         <section class="tambahMember">
             <h2>Rekam Transaksi</h2>
             <form>
@@ -58,18 +72,177 @@
                     <option value="">-- Pilih Member --</option>
                     <option value="1">Jane Doe</option>
                 </select>
-
                 <!-- <label for="jenis_sampah">Jenis Sampah:</label>
                 <input type="text" id="jenis_sampah" name="jenis_sampah" required>
                 <label for="kuantitas">Kuantitas:</label>
                 <input type="number" id="kuantitas" name="kuantitas" required> -->
                 <button type="submit">Rekam Transaksi</button>
             </form>
+            <h2>Summary</h2>
+            <ul id="selected-items-list">
+                <!-- Selected items will appear here -->
+            </ul>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
     </footer>
+    <script>
+        // Get all the card elements
+        const cards = document.querySelectorAll('.card');
+        
+        // Get form for submitting data
+        const form = document.querySelector('form');
+        
+        // Get the container to display selected items
+        const selectedItemsList = document.getElementById('selected-items-list');
+        
+        // Track selected items
+        let selectedItemsData = [];
+    
+        // Event listener for each card
+
+        // Event listener for each card
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Get data from the clicked card
+                const nama = card.getAttribute('data-nama');
+                const harga = card.getAttribute('data-harga');
+                const satuan = card.getAttribute('data-satuan');
+                const kuantitas = card.getAttribute('data-kuantitas');
+                const inputKuantitas = card.querySelector('input').value; // Get the value from input
+                console.log(nama,harga,satuan,kuantitas,inputKuantitas);
+
+                // Find if the item is already selected
+                const selectedItemIndex = selectedItemsData.findIndex(item => item.nama === nama);
+
+                if (selectedItemIndex !== -1) {
+                    // If item is already selected, update quantity or remove if it's 0
+                    if (inputKuantitas == 0) {
+                        // Remove item from the selected items list and summary if quantity is 0
+                        selectedItemsData.splice(selectedItemIndex, 1);
+                        removeItemFromSummary(nama);
+                    } else {
+                        // Update the quantity of the selected item
+                        selectedItemsData[selectedItemIndex].kuantitas = inputKuantitas;
+                        updateItemInSummary(nama, inputKuantitas);
+                    }
+                } else {
+                    // If the item is not in the selected list, add it
+                    if (inputKuantitas > 0) {
+                        selectedItemsData.push({
+                            nama,
+                            harga,
+                            satuan,
+                            kuantitas: inputKuantitas
+                        });
+                        addItemToSummary(nama, harga, satuan,kuantitas, inputKuantitas);
+                    }
+                }
+
+                // Update the hidden inputs for form submission
+                updateFormInputs();
+            });
+        });
+
+        // Add item to the summary list
+        function addItemToSummary(nama, harga, satuan,kuantitas, inputKuantitas) {
+            console.log(kuantitas);
+            const listItem = document.createElement('li');
+            listItem.dataset.nama = nama;
+
+            const strong = document.createElement('strong');
+            strong.textContent = nama;
+
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.classList.add('quantity-input');
+            quantityInput.value = inputKuantitas;
+            quantityInput.min = 0;
+
+            // // Instead of creating an input field, create a span to display the quantity
+            // const quantityInput = document.createElement('span');
+            // quantityInput.classList.add('quantity-text'); // You can add custom classes here for styling
+            // quantityInput.textContent = inputKuantitas;  // Set the text content to the input quantity
+
+            quantityInput.addEventListener('input', function() {
+                const quantity = parseInt(quantityInput.value, 10);
+                if (quantity === 0) {
+                    // If quantity becomes 0, remove item
+                    selectedItemsData = selectedItemsData.filter(item => item.nama !== nama);
+                    selectedItemsList.removeChild(listItem);
+                    updateFormInputs();
+                } else {
+                    // Update the quantity in the list and in the selected items data
+                    const selectedItem = selectedItemsData.find(item => item.nama === nama);
+                    selectedItem.kuantitas = quantity;
+                    updateFormInputs();
+                }
+            });
+
+            const spanStok = document.createElement('span');
+            spanStok.textContent = `Stok: ${kuantitas}`;
+
+            listItem.appendChild(strong);
+            listItem.appendChild(document.createTextNode(` - Harga: ${harga}/${satuan} - `));
+            listItem.appendChild(quantityInput);
+            listItem.appendChild(spanStok);
+
+            selectedItemsList.appendChild(listItem);
+        }
+
+        // Update item in the summary list if the quantity changes
+        function updateItemInSummary(nama, kuantitas) {
+            const item = selectedItemsList.querySelector(`li[data-nama="${nama}"]`);
+            if (item) {
+                const quantityInput = item.querySelector('.quantity-input');
+                quantityInput.value = kuantitas;
+            }
+        }
+
+        // Remove item from the summary list
+        function removeItemFromSummary(nama) {
+            const item = selectedItemsList.querySelector(`li[data-nama="${nama}"]`);
+            if (item) {
+                selectedItemsList.removeChild(item);
+            }
+        }
+
+        // Function to update the form with selected items
+        function updateFormInputs() {
+            // Clear any existing hidden inputs
+            form.querySelectorAll('input[type="hidden"]').forEach(input => input.remove());
+
+            // Get the selected items and add them to the form
+            selectedItemsData.forEach(item => {
+                const inputNama = document.createElement('input');
+                inputNama.type = 'hidden';
+                inputNama.name = 'nama[]';
+                inputNama.value = item.nama;
+
+                const inputHarga = document.createElement('input');
+                inputHarga.type = 'hidden';
+                inputHarga.name = 'harga[]';
+                inputHarga.value = item.harga;
+
+                const inputSatuan = document.createElement('input');
+                inputSatuan.type = 'hidden';
+                inputSatuan.name = 'satuan[]';
+                inputSatuan.value = item.satuan;
+
+                const inputKuantitas = document.createElement('input');
+                inputKuantitas.type = 'hidden';
+                inputKuantitas.name = 'kuantitas[]';
+                inputKuantitas.value = item.kuantitas;
+
+                // Append the new hidden inputs to the form
+                form.appendChild(inputNama);
+                form.appendChild(inputHarga);
+                form.appendChild(inputSatuan);
+                form.appendChild(inputKuantitas);
+            });
+        }
+    </script>
 </body>
 </html>
