@@ -140,7 +140,9 @@ SELECT
     tk.tanggal AS tanggal,
     s.namaSampah AS namaSampah,
     tks.jumlahSampah AS jumlahSampah,
-    (tks.jumlahSampah * h.hargaSampah) AS subTotal
+    sk.namaSatuanKuantitas AS satuanKuantitas,
+    (tks.jumlahSampah * h.hargaSampah) AS subTotal,
+    SUM(tks.jumlahSampah * h.hargaSampah) OVER (PARTITION BY tk.tanggal) AS total
 FROM
     Transaksi_Keluar tk
 JOIN
@@ -148,7 +150,9 @@ JOIN
 JOIN
     Sampah s ON tks.idSampah = s.idSampah
 JOIN
-    Harga h ON s.idHargaSekarang = h.idHarga;
+    Harga h ON s.idHargaSekarang = h.idHarga
+JOIN 
+    SatuanKuantitas sk ON sk.idSatuanKuantitas = s.idSatuanKuantitas;
 
 CREATE VIEW transaksiMasuk AS
 SELECT
