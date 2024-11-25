@@ -66,11 +66,13 @@
         <!-- </section> -->
         <section class="tambahMember">
             <h2>Rekam Transaksi</h2>
-            <form>
+            <form method="post" action="/pemilik/tambahTransaksi/add">
                 <label for="member">Pilih Member:</label>
                 <select id="member" name="member" required>
                     <option value="">-- Pilih Member --</option>
-                    <option value="1">Jane Doe</option>
+                    <option th:each="pengguna : ${listPengguna}" 
+                            th:value="${pengguna.idPengguna}" 
+                            th:text="${pengguna.nama}"></option>
                 </select>
                 <!-- <label for="jenis_sampah">Jenis Sampah:</label>
                 <input type="text" id="jenis_sampah" name="jenis_sampah" required>

@@ -1,6 +1,9 @@
 package com.example.BankSampah.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,7 @@ import com.example.BankSampah.model.card.Card;
 import com.example.BankSampah.model.card.CardRepository;
 import com.example.BankSampah.model.harga.Harga;
 import com.example.BankSampah.model.harga.HargaRepository;
+import com.example.BankSampah.model.invent.InventoryRepository;
 import com.example.BankSampah.model.kecamatan.Kecamatan;
 import com.example.BankSampah.model.kecamatan.KecamatanRepository;
 import com.example.BankSampah.model.kelurahan.Kelurahan;
@@ -28,10 +32,19 @@ import com.example.BankSampah.model.sampah.Sampah;
 import com.example.BankSampah.model.sampah.SampahRepository;
 import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitas;
 import com.example.BankSampah.model.satuanKuantitas.SatuanKuantitasRepository;
+import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalam;
+import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalamRepository;
 import com.example.BankSampah.model.transaksiKePusat.TransaksiKePusat;
 import com.example.BankSampah.model.transaksiKePusat.TransaksiKePusatRepository;
+import com.example.BankSampah.model.transaksiKeluar.TransaksiKeluar;
+import com.example.BankSampah.model.transaksiKeluar.TransaksiKeluarRepository;
+import com.example.BankSampah.model.transaksiKeluarSampah.TransaksiKeluarSampahRepository;
+import com.example.BankSampah.model.transaksiMasuk.TransaksiMasuk;
+import com.example.BankSampah.model.transaksiMasuk.TransaksiMasukRepository;
+import com.example.BankSampah.model.transaksiMasukSampah.TransaksiMasukSampahRepository;
 import com.example.BankSampah.model.user.User;
 import com.example.BankSampah.model.user.UserRepository;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,12 +78,31 @@ public class PemilikController {
     @Autowired
     NamaHargaSatuanRepository repoSampahView;
 
+    
+    @Autowired
+    CardRepository repoCard;
+    
+    @Autowired
+    TransaksiKeluarRepository repoTransaksiKeluar;
+    
+    @Autowired
+    TransaksiKeluarSampahRepository repoTransaksiKeluarSampah;
+    
+    @Autowired
+    TransaksiMasukRepository repoTransaksiMasuk;
+    
+    @Autowired
+    TransaksiMasukSampahRepository repoTransaksiMasukSampah;
+    
+    @Autowired
+    InventoryRepository repoInvent;
+
     @Autowired
     TransaksiKePusatRepository repoTransaksiKePusat;
 
     @Autowired
-    CardRepository repoCard;
-
+    TransaksiKeDalamRepository repoTransaksiKeDalam;
+    
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -183,6 +215,22 @@ public class PemilikController {
     @GetMapping("/transaksi")
     public String transaksiPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
+        List<TransaksiKeDalam> listTransaksi = repoTransaksiKeDalam.findAll();
+        model.addAttribute("listTransaksiMasuk", listTransaksi);
+
+        // Map<String, List<TransaksiKeDalam>> groupedTransaksi = listTransaksi.stream()
+        //     .collect(Collectors.groupingBy(t -> t.getTanggal().toString() +"="+ t.getNamaPengguna()));
+
+        // Add the grouped transaksi to the model for display in the view
+        // model.addAttribute("groupedTransaksi", groupedTransaksi);
+        // model.addAttribute("error2", groupedTransaksi);
+
+        int total = 0;
+        for(int i = 0;i < listTransaksi.size();i++){
+            total+= listTransaksi.get(i).getSubTotal();
+        }
+        model.addAttribute("total", total);
+        // model.addAttribute("baris", listTransaksi.size());
         return "/pemilik/transaksi";
     }
 
@@ -191,7 +239,43 @@ public class PemilikController {
         User user = getAuthentication(request);
         List<Card> list = repoCard.findAll();
         model.addAttribute("listKet", list);
+
+        List<User> listuser = repoUser.findAll();
+        model.addAttribute("listPengguna", listuser);
+
         return "/pemilik/tambah_transaksi";
+    }
+
+    @PostMapping("tambahTransaksi/add")
+    public String addTransaksi(
+        @RequestParam("member") String member,
+        @RequestParam("nama[]") List<String> nama,
+        @RequestParam("harga[]") List<String> harga,
+        @RequestParam("satuan[]") List<String> satuan,
+        @RequestParam("kuantitas[]") List<String> kuantitas,
+        Model model, HttpServletRequest request)
+    {
+        User user = getAuthentication(request);
+        if(nama.size()>0){
+            int idTransaksiMasuk = repoTransaksiMasuk.addTransaksiMasuk(Integer.parseInt(member));
+            for (int i = 0; i < nama.size(); i++) {
+                String itemNama = nama.get(i);
+                String itemHarga = harga.get(i);
+                String itemSatuan = satuan.get(i);
+                String itemKuantitas = kuantitas.get(i);
+
+                Sampah yangDipilih = repo.findByNama(itemNama).get(0);
+                int idSampah = yangDipilih.getIdSampah();
+                int idHarga = yangDipilih.getIdHargaSekarang();
+                int kuantitasSaatIni = Integer.parseInt(itemKuantitas);
+                repoTransaksiMasukSampah.addTransaksiMasukSampah(idTransaksiMasuk, idSampah, idHarga, kuantitasSaatIni);
+                
+                int kuantitasDiDB = repoInvent.findByIdSampah(idSampah).get(0).getKuantitas();
+                kuantitasDiDB += kuantitasSaatIni;
+                repoInvent.updateKuantitas(kuantitasDiDB, idSampah);
+            }
+        }
+        return "redirect:/pemilik/transaksi";
     }
 
     @GetMapping("/transaksiKePusat")
@@ -217,15 +301,28 @@ public class PemilikController {
     Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         if(nama.size()>0){
-            
+            Timestamp nowTime = new Timestamp(System.currentTimeMillis());
+            repoTransaksiKeluar.addTransaksiKeluar(nowTime);
+            List<TransaksiKeluar> listTransaksiKeluar = repoTransaksiKeluar.findByDate(nowTime);
+            TransaksiKeluar transaksiKeluar = listTransaksiKeluar.get(0);
             for (int i = 0; i < nama.size(); i++) {
                 String itemNama = nama.get(i);
                 String itemHarga = harga.get(i);
                 String itemSatuan = satuan.get(i);
                 String itemKuantitas = kuantitas.get(i);
+
+                Sampah yangDipilih = repo.findByNama(itemNama).get(0);
+                int idSampah = yangDipilih.getIdSampah();
+                int idHarga = yangDipilih.getIdHargaSekarang();
+                int kuantitasSaatIni = Integer.parseInt(itemKuantitas);
+                repoTransaksiKeluarSampah.addTransaksiKeluarSampah(transaksiKeluar.getIdTransaksiKeluar(), idSampah, kuantitasSaatIni, idHarga);
+
+                int kuantitasDiDB = repoInvent.findByIdSampah(idSampah).get(0).getKuantitas();
+                kuantitasDiDB -= kuantitasSaatIni;
+                repoInvent.updateKuantitas(kuantitasDiDB, idSampah);
             }
         }
-        return "error";
+        return "redirect:/pemilik/tambahTransaksi";
     }
 
     @GetMapping("/laporan")
