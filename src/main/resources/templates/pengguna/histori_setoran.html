@@ -34,7 +34,13 @@
             </thead>
             <tbody>
                 <tr th:each="transaksi : ${listTransaksiMember}">
-                    <td th:text="${transaksi.tanggal}"></td>
+                    <!-- <td th:if="${iterStat.index == 0 || (iterStat.index > 0 and transaksi.tanggal != listTransaksiMember[iterStat.index - 1].tanggal)}"
+                        th:text="${#dates.format(transaksi.tanggal, 'dd-MM-yyyy')}"></td>
+                    <td th:unless="${iterStat.index == 0 || (iterStat.index > 0 and transaksi.tanggal != listTransaksiMember[iterStat.index - 1].tanggal)}"></td> -->
+                    <td th:if="${transaksi.tanggal != null}"
+                        th:text="${#dates.format(transaksi.tanggal, 'dd-MM-yyyy')}"></td>
+                    <td th:if="${transaksi.tanggal == null}">N/A</td>
+
                     <td th:text="${transaksi.namaSampah}"></td>
                     <td th:text="${transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.satuanKuantitas}"></td>
