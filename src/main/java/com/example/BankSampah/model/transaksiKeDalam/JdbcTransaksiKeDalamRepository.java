@@ -21,6 +21,12 @@ public class JdbcTransaksiKeDalamRepository implements TransaksiKeDalamRepositor
     }
 
     @Override
+    public List<TransaksiKeDalam> findByUsername(String name) {
+        String sql = "SELECT * FROM transaksiMasuk WHERE namapengguna = ?";
+        return jdbcTemplate.query(sql, this::mapRowToSatuanKuantitas, name);
+    }
+
+    @Override
     public TransaksiKeDalam mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException {
         return new TransaksiKeDalam(
             resultSet.getTimestamp("tanggal"), 

@@ -199,6 +199,12 @@ public class PemilikController {
         return "/pemilik/kelola_sampah";
     }
 
+    @GetMapping("/editSampah")
+    public String showEditSampah(Model model, HttpServletRequest request) {
+        User user =getAuthentication(request);
+        return "/pemilik/edit_sampah";
+    }
+
     @GetMapping("/tambahSampah")
     public String addSampahPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);

@@ -55,4 +55,8 @@ public class User implements UserDetails
     public boolean isEnabled() {
         return true;
     }
+
+    public int idPengguna() {
+        return this.idPengguna;
+    }
 }

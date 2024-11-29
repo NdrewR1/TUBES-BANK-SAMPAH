@@ -13,8 +13,9 @@
         <h1>Dashboard Bank Sampah Daur Ulang</h1>
         <nav>
             <ul>
-                <li><a href="histori_setoran.html">Histori Setoran</a></li>
-                <li><a href="laporan_pendapatan.html">Laporan Pendapatan</a></li>
+                <li><a th:href="@{/}" id="current_page">Dashboard</a></li>
+                <li><a th:href="@{/pengguna/historiSetoran}">Histori Setoran</a></li>
+                <li><a th:href="@{/pengguna/laporan_pendapatan}">Laporan Pendapatan</a></li>
                 <li><a th:href="@{/logoutPage}">Logout</a></li>
             </ul>
         </nav>
@@ -22,32 +23,24 @@
 
     <main>
         <h2>Selamat datang, <h2 th:text="${nama}"></h2></h2>
-
         <section id="harga">
             <h2>Daftar Harga Beli Sampah</h2>
             <table>
                 <thead>
                     <tr>
+                        <!-- <th>Gambar</th> -->
                         <th>Jenis Sampah</th>
                         <th>Satuan</th>
                         <th>Harga Beli (Rp)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Botol Plastik 600ml</td>
-                        <td>Buah</td>
-                        <td>2.000</td>
-                    </tr>
-                    <tr>
-                        <td>Kardus</td>
-                        <td>Kg</td>
-                        <td>1.500</td>
-                    </tr>
-                    <tr>
-                        <td>Kertas</td>
-                        <td>Kg</td>
-                        <td>1.000</td>
+                    <tr th:each="sampah : ${sampahList}">
+                        <!-- <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/> -->
+                        <!-- </td> -->
+                        <td th:text="${sampah.nama}"></td>
+                        <td th:text="${sampah.satuankuantitas}"></td>
+                        <td th:text="${sampah.harga}"></td>
                     </tr>
                 </tbody>
             </table>

@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histori Setoran Sampah - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Histori Setoran Sampah</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/pengguna/historiSetoran}" id="current_page">Histori Setoran</a></li>
+                <li><a th:href="@{/pengguna/laporan_pendapatan}">Laporan Pendapatan</a></li>
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
@@ -20,23 +28,21 @@
                     <th>Tanggal</th>
                     <th>Jenis Sampah</th>
                     <th>Kuantitas</th>
-                    <th>Total (Rp)</th>
+                    <th>Satuan Kuantitas</th>
+                    <th>SubTotal (Rp)</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>01-10-2023</td>
-                    <td>Botol Plastik 600ml</td>
-                    <td>5</td>
-                    <td>10.000</td>
+                <tr th:each="transaksi : ${listTransaksiMember}">
+                    <td th:text="${transaksi.tanggal}"></td>
+                    <td th:text="${transaksi.namaSampah}"></td>
+                    <td th:text="${transaksi.jumlahSampah}"></td>
+                    <td th:text="${transaksi.satuanKuantitas}"></td>
+                    <td th:text="${transaksi.subTotal}"></td>
                 </tr>
-                <tr>
-                    <td>05-10-2023</td>
-                    <td>Kardus</td>
-                    <td>2</td>
-                    <td>3.000</td>
+                <tr th:if="${#lists.isEmpty(listTransaksiMember)}">
+                    <td colspan="5">Belum ada histori setoran.</td>
                 </tr>
-                <!-- Tambahkan histori setoran lainnya di sini -->
             </tbody>
         </table>
     </main>

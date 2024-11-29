@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TransaksiKeDalamRepository {
     List<TransaksiKeDalam> findAll();
+    List<TransaksiKeDalam> findByUsername(String name);
     TransaksiKeDalam mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException;
 }
