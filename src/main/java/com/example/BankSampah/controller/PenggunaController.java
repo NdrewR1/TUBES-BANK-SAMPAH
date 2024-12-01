@@ -110,20 +110,16 @@ public class PenggunaController {
     
         // ambil pengguna dari sesi
         User user = getAuthentication(request);
-        // if (user == null) {
-        //     model.addAttribute("error", "Anda harus login untuk melihat laporan pendapatan.");
-        //     return "/login";
-        // }
-    
         // ambil pendapatan berdasarkan nama pengguna dan rentang tanggal
         List<TransaksiKeDalam> pendapatan = repoTransaksiKeDalam.findPendapatanByDateRange(startTimestamp, endTimestamp, user.getNama());
     
-        // System.out.println("Pendapatan: " + pendapatan);
+        int totalPendapatanKeseluruhan = pendapatan.stream().mapToInt(TransaksiKeDalam::getTotal).sum();
     
         model.addAttribute("pendapatan", pendapatan);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-    
+        model.addAttribute("totalPendapatanKeseluruhan", totalPendapatanKeseluruhan);
+
         return "/pengguna/laporan_pendapatan";
     }
 }

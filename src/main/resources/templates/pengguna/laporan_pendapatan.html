@@ -41,9 +41,15 @@
                     <td th:text="${#dates.format(data.tanggal, 'dd-MM-yyyy')}"></td>
                     <td th:text="${data.total}"></td>
                 </tr>
+                <tr th:if="${pendapatan.size() == 0}">
+                    <td colspan="2">Tidak ada data pendapatan untuk rentang tanggal ini.</td>
+                </tr>
                 <!-- Tambahkan laporan pendapatan lainnya di sini -->
             </tbody>
         </table>
+        <div th:if="${totalPendapatanKeseluruhan > 0}" style="margin-top: 20px; font-weight: bold;">
+            <p>Total Pendapatan Keseluruhan: Rp <span th:text="${totalPendapatanKeseluruhan}"></span></p>
+        </div>
     </main>
 
     <footer>
