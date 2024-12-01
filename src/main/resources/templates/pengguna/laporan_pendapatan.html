@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +8,12 @@
 </head>
 <body >
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/pengguna/}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Laporan Pendapatan</h1>
     </header>
 
     <main>
-        <h2>Laporan Pendapatan Anda</h2>
+        <h2>Laporan Pendapatan <span th:text="${nama}"></span>,</h2>
         <form action="laporan_pendapatan.php" method="post">
             <label for="start_date">Tanggal Mulai:</label>
             <input type="date" id="start_date" name="start_date" required>
@@ -29,13 +29,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>01-10-2023</td>
-                    <td>10.000</td>
+                <tr th:each="pendapatan : ${pendapatanList}">
+                    <td th:text="${pendapatan.tanggal}"></td>
+                    <td th:text="${pendapatan.total}"></td>
                 </tr>
-                <tr>
-                    <td>05-10-2023</td>
-                    <td>3.000</td>
+                <tr th:if="${#lists.isEmpty(pendapatanList)}">
+                    <td colspan="2" style="text-align: center;">Tidak ada pendapatan</td>
                 </tr>
                 <!-- Tambahkan laporan pendapatan lainnya di sini -->
             </tbody>
