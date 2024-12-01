@@ -1,20 +1,28 @@
 package com.example.BankSampah.controller;
 
+import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuan;
 import com.example.BankSampah.model.namahargasatuan.NamaHargaSatuanRepository;
 import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalam;
 import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalamRepository;
+import com.example.BankSampah.model.transaksiMasuk.TransaksiMasuk;
 import com.example.BankSampah.model.transaksiMasuk.TransaksiMasukRepository;
 import com.example.BankSampah.model.user.User;
 
@@ -30,6 +38,7 @@ public class PenggunaController {
 
     @Autowired
     TransaksiKeDalamRepository repoTransaksiKeDalam;
+
 
     @GetMapping("/")
     public String dashboard(Model model, HttpServletRequest request){
@@ -82,6 +91,39 @@ public class PenggunaController {
     @GetMapping("/laporan_pendapatan")
     public String showLaporan(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
+        return "/pengguna/laporan_pendapatan";
+    }
+
+    @PostMapping("/laporan_pendapatan")
+    public String tampilkanLaporan(
+        @RequestParam(value = "start_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam(value = "end_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        Model model,
+        HttpServletRequest request
+    ) {
+        if (startDate == null) startDate = LocalDate.of(2024, 1, 1);
+        if (endDate == null) endDate = LocalDate.now();
+    
+        // template tanggal
+        Timestamp startTimestamp = Timestamp.valueOf(startDate.atStartOfDay());
+        Timestamp endTimestamp = Timestamp.valueOf(endDate.atTime(23, 59, 59));
+    
+        // ambil pengguna dari sesi
+        User user = getAuthentication(request);
+        // if (user == null) {
+        //     model.addAttribute("error", "Anda harus login untuk melihat laporan pendapatan.");
+        //     return "/login";
+        // }
+    
+        // ambil pendapatan berdasarkan nama pengguna dan rentang tanggal
+        List<TransaksiKeDalam> pendapatan = repoTransaksiKeDalam.findPendapatanByDateRange(startTimestamp, endTimestamp, user.getNama());
+    
+        // System.out.println("Pendapatan: " + pendapatan);
+    
+        model.addAttribute("pendapatan", pendapatan);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+    
         return "/pengguna/laporan_pendapatan";
     }
 }

@@ -15,4 +15,6 @@ public class TransaksiKeDalam {
     String satuanKuantitas;
     int subTotal;
     int total;
+
+    public TransaksiKeDalam() {}
 }

@@ -25,6 +25,18 @@ public class JdbcTransaksiKeDalamRepository implements TransaksiKeDalamRepositor
         String sql = "SELECT * FROM transaksiMasuk WHERE namapengguna = ?";
         return jdbcTemplate.query(sql, this::mapRowToSatuanKuantitas, name);
     }
+    
+    @Override
+    public List<TransaksiKeDalam> findPendapatanByDateRange(Timestamp startDate, Timestamp endDate, String name) {
+        String sql = "SELECT tanggal, SUM(total) AS total_pendapatan FROM transaksiMasuk " +
+                     "WHERE namapengguna = ? AND tanggal BETWEEN ? AND ? GROUP BY tanggal ORDER BY tanggal ASC";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            TransaksiKeDalam transaksi = new TransaksiKeDalam();
+            transaksi.setTanggal(rs.getTimestamp("tanggal"));
+            transaksi.setTotal(rs.getInt("total_pendapatan"));
+            return transaksi;
+        }, name, startDate, endDate); // Parameter nama pengguna harus yang pertama
+    }
 
     @Override
     public TransaksiKeDalam mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException {
@@ -37,4 +49,6 @@ public class JdbcTransaksiKeDalamRepository implements TransaksiKeDalamRepositor
             resultSet.getInt("subTotal"),
             resultSet.getInt("total"));
     }
+
+
 }
