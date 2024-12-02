@@ -13,8 +13,8 @@
     </header>
 
     <main>
-        <h2>Laporan Pendapatan <span th:text="${nama}"></span>,</h2>
-        <form action="laporan_pendapatan.php" method="post">
+        <h2>Laporan Pendapatan Anda,</h2>
+        <form th:action="@{/pengguna/laporan_pendapatan}" method="post">
             <label for="start_date">Tanggal Mulai:</label>
             <input type="date" id="start_date" name="start_date" required>
             <label for="end_date">Tanggal Akhir:</label>

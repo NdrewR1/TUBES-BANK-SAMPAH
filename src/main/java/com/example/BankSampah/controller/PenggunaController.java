@@ -1,5 +1,6 @@
 package com.example.BankSampah.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalam;
 import com.example.BankSampah.model.transaksiKeDalam.TransaksiKeDalamRepository;
@@ -60,12 +63,24 @@ public class PenggunaController {
     public String laporanPendapatan(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         if(user != null){
-            model.addAttribute("nama", user.getNama());
-
             List<TransaksiKeDalam> pendapatanList =  transaksiKeDalamRepository.findByNama(user.getNama());
             model.addAttribute("pendapatanList", pendapatanList);
         }
         return "pengguna/laporan_pendapatan";
-
     }
+
+    @PostMapping("/laporan_pendapatan")
+    public String laporantPendapatan(
+        @RequestParam("start_date") String startDate, @RequestParam("end_date") String endDate,
+        Model model, HttpServletRequest request){
+            User user = getAuthentication(request);
+            if(user != null){
+                LocalDate start = LocalDate.parse(startDate);
+                LocalDate end = LocalDate.parse(endDate);
+
+                List<TransaksiKeDalam> pendapatanList = transaksiKeDalamRepository.findByDateRange(user.getNama(), start, end);
+                model.addAttribute("pendapatanList", pendapatanList);
+            }
+            return "pengguna/laporan_pendapatan";
+        }
 }
