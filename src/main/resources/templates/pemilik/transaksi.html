@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+</head>
+<body>
+    <header>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Transaksi Penyetoran Sampah</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/pemilik/kelolaSampah}">Kelola Sampah</a></li>
+                <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
+                <li><a th:href="@{/pemilik/transaksi}" id="current_page">Transaksi</a></li>
+                <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="subJudul">
+            <h2>Daftar Transaksi</h2>
+            <a th:href="@{/pemilik/tambahTransaksi}"><button>Tambah Transaksi</button></a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Member</th>
+                    <th>Jenis Sampah</th>
+                    <th>Kuantitas</th>
+                    <th>satuanKuantitas</th>
+                    <th>SubTotal (Rp)</th>
+                    <th>Total (Rp)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="transaksi, iterStat : ${listTransaksiMasuk}">
+                    <td th:text="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index-1].tanggal != transaksi.tanggal) ? transaksi.tanggal : ''}"></td>
+                    <td th:text="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index-1].tanggal != transaksi.tanggal) ? transaksi.namaPengguna : ''}"></td>
+                    <td th:text="${transaksi.namaSampah}"></td>
+                    <td th:text="${transaksi.jumlahSampah}"></td>
+                    <td th:text="${transaksi.satuanKuantitas}"></td>
+                    <td th:text="${transaksi.subTotal}"></td>
+
+                    <td th:if="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index - 1].tanggal != transaksi.tanggal)}" 
+                        th:text="${transaksi.total}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>

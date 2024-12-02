@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="id"> 
+    <head> 
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Kelola Member - Bank Sampah Daur Ulang</title> 
+        <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+    </head> 
+    <body> 
+        <header> 
+            <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+            <h1>Kelola Member</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                    <li><a th:href="@{/pemilik/kelolaSampah}">Kelola Sampah</a></li>
+                    <li><a th:href="@{/pemilik/kelolaMember}" id="current_page">Kelola Member</a></li>
+                    <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
+                    <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                    <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
+                    <li><a th:href="@{/logoutPage}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <!-- <h2>Tambah Member</h2>
+            <form>
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" required>
+                <label for="nomor_hp">Nomor HP:</label>
+                <input type="text" id="nomor_hp" name="nomor_hp" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="alamat">Alamat:</label>
+                <input type="text" id="alamat" name="alamat" required>
+                <button type="submit">Tambah</button>
+            </form> -->
+            <div class="subJudul">
+                <h2>Daftar Member</h2>
+                <a th:href="@{/pemilik/tambahMember}"><button>Tambah Member</button></a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Nomor HP</th>
+                        <th>Email</th>
+                        <th>Alamat</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${listUser}">
+                        <td th:text="${user.nama}"></td>
+                        <td th:text="${user.noHp}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.alamat}"></td>
+                        <td><a th:href="@{/pemilik/editMember/{email}(email=${user.email})}"><button>Edit</button></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+        </footer>
+    </body>
+</html>

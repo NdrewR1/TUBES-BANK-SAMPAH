@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+</head>
+<body>
+    <header>
+        <!-- <a href="index.html" style="text-decoration: none; font-size: 20px;">&#8592;</a> -->
+
+        <h1>Dashboard Bank Sampah Daur Ulang</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/dashboard}" id="current_page">Dashboard</a></li>
+                <li><a th:href="@{/pemilik/kelolaSampah}">Kelola Sampah</a></li>
+                <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
+                <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
+                <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Selamat datang, <span th:text="${nama}"></span></h2>
+        <p>Pilih menu di atas untuk mengelola bank sampah.</p>
+
+        <section id="harga">
+            <h2>Daftar Harga Beli Sampah</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <!-- <th>Gambar</th> -->
+                        <th>Jenis Sampah</th>
+                        <th>Satuan</th>
+                        <th>Harga Beli (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sampah : ${sampahList}">
+                        <!-- <td><img th:src="@{${sampah.gambar}}" alt="Sampah Image" width="100px"/> -->
+                        <!-- </td> -->
+                        <td th:text="${sampah.nama}"></td>
+                        <td th:text="${sampah.satuankuantitas}"></td>
+                        <td th:text="${sampah.harga}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>

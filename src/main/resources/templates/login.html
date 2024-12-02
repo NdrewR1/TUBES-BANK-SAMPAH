@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}" >
+</head>
+<body>
+    <header>
+        <a th:href="@{/}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Bank Sampah Daur Ulang</h1>
+    </header>
+    <main class="loginForm">
+        <section id="login">
+            <h2>Login</h2>
+            <form action="/loginPage/login" method="post">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Masuk</button>
+            </form>
+            <p>Belum punya akun? <a th:href="@{/registerPage}">Daftar di sini</a></p>
+            <!-- <a href="pemilik/dashboard.html">TES PEMILIK</a><br> -->
+            <!-- <a href="pengguna/dashboard.html">TES PENGGUNA</a>s -->
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+            <p th:text="${emaildijava}">tes</p>
+            <p th:text="${pwdijava}"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>
