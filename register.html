@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Pengguna - Bank Sampah Daur Ulang</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="login.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <h1>Pendaftaran Pengguna</h1>
+    </header>
+
+    <main class="tambah">
+        <section class="tambahMember">
+            <h2>Silakan Isi Formulir Pendaftaran</h2>
+            <form action="register_process.php" method="post">
+                <label for="full_name">Nama Lengkap:</label>
+                <input type="text" id="full_name" name="full_name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Kata Sandi:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="confirm_password">Konfirmasi Kata Sandi:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+
+                <label for="phone">Nomor Telepon:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="address">Alamat:</label>
+                <input type="text" id="address" name="address" required>
+
+                <button type="submit">Daftar</button>
+            </form>
+            <p>Sudah punya akun? <a href="login.html">Masuk di sini</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
+    </footer>
+</body>
+</html>
