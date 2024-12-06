@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Pendapatan - Bank Sampah Daur Ulang</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
 </head>
 <body >
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/dashboard}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Laporan Pendapatan</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/pengguna/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/pengguna/historiSetoran}">Histori Setoran</a></li>
+                <li><a th:href="@{/pengguna/laporan_pendapatan}" id="current_page">Laporan Pendapatan</a></li>
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
         <h2>Laporan Pendapatan Anda</h2>
-        <form action="laporan_pendapatan.php" method="post">
+        <form action="/pengguna/laporan_pendapatan" method="post">
             <label for="start_date">Tanggal Mulai:</label>
-            <input type="date" id="start_date" name="start_date" required>
+            <input type="date" id="start_date" name="start_date">
             <label for="end_date">Tanggal Akhir:</label>
-            <input type="date" id="end_date" name="end_date" required>
+            <input type="date" id="end_date" name="end_date">
             <button type="submit">Tampilkan Laporan</button>
         </form>
         <table>
@@ -29,18 +37,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>01-10-2023</td>
-                    <td>10.000</td>
+                <tr th:if="${pendapatan != null and !pendapatan.isEmpty()}" th:each="data : ${pendapatan}">
+                    <td th:text="${#dates.format(data.tanggal, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${data.total}"></td>
                 </tr>
-                <tr>
-                    <td>05-10-2023</td>
-                    <td>3.000</td>
+                <!-- Pesan jika 'pendapatan' kosong -->
+                <tr th:if="${pendapatan == null or pendapatan.isEmpty()}">
+                    <td colspan="2">Tidak ada data pendapatan untuk rentang tanggal ini.</td>
                 </tr>
-                <!-- Tambahkan laporan pendapatan lainnya di sini -->
             </tbody>
         </table>
+        <div th:if="${totalPendapatanKeseluruhan > 0}" style="margin-top: 20px; font-weight: bold;">
+            <p>Total Pendapatan Keseluruhan: Rp <span th:text="${totalPendapatanKeseluruhan}"></span></p>
+        </div>
     </main>
+    
 
     <footer>
         <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>

@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Data Sampah</title>
-    <link rel="stylesheet" href="/src/main/resources/static/style.css">
+    <link rel="stylesheet" href="style.css" th:href="@{/style.css}">
+    <link rel="stylesheet" href="popup.css" th:href="@{/popup.css}">
 </head>
 <body>
     <header>
-        <a href="dashboard.html" style="text-decoration: none; font-size: 20px;">&#8592;</a>
+        <a th:href="@{/pemilik/kelolaSampah}" style="text-decoration: none; font-size: 20px;">&#8592;</a>
         <h1>Edit Data Jenis Sampah</h1>
         <nav>
             <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="kelola_sampah.html">Kelola Sampah</a></li>
-                <li><a href="kelola_member.html">Kelola Member</a></li>
-                <li><a href="transaksi.html">Transaksi</a></li>
-                <li><a href="transaksi_ke_pusat.html">Penyetoran ke Pusat</a></li>
-                <!-- <li><a href="laporan.html">Laporan</a></li> -->
-                <li><a href="../logout.html">Logout</a></li>
+                <li><a th:href="@{/dashboard}" id="current_page">Dashboard</a></li>
+                <li><a th:href="@{/pemilik/kelolaSampah}">Kelola Sampah</a></li>
+                <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
+                <li><a th:href="@{/pemilik/transaksi}">Transaksi</a></li>
+                <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
+                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
+                <li><a th:href="@{/logoutPage}">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -26,24 +27,24 @@
     <main>
         <h2>Formulir Pengubahan Data Sampah</h2>
         <section    >
-            <!-- <form action="dashboard.html" method="post"> -->
+            <!-- <form th:action="@{pemilik/editSampah/{sampahOld}/ubah{sampahOld=${idSampah}}}" method="post"> -->
                 <div>
                     <label for="jenis-sampah">Nama Jenis Sampah:</label>
-                    <input type="text" id="jenis-sampah" name="jenis-sampah" value="Botol Plastik 600ml" required>  
+                    <input type="text" id="jenis-sampah" name="jenis-sampah" value="Kertas" required>  
                 </div>
                 <div>
                     <label for="satuan">Satuan:</label>
-                    <input type="text" id="satuan" name="satuan" value="Buah" required>
+                    <input type="text" id="satuan" name="satuan" value="Kg" required>
                 </div>
                 <div>
                     <label for="harga-beli">Harga Beli (Rp):</label>
-                    <input type="number" id="harga-beli" name="harga-beli" value="2000" required>
+                    <input type="number" id="harga-beli" name="harga-beli" value="1000" required>
                 </div>
                 <div>
-                    
-                    <button type="submit">Simpan Perubahan</button>
-                    <a href="dashboard.html" class="button">
-                        <button>Batal</button></a>
+                    <button id="saveButton" type="submit">Simpan Perubahan</button>
+
+                    <button id="deleteButton">Hapus</button>
+                    <a th:href="@{/pemilik/kelolaSampah}" class="button"><button>Batal</button></a>
                 </div>
             <!-- </form> -->
         </section>
@@ -52,5 +53,41 @@
     <footer>
         <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
     </footer>
+
+            <!-- Pop-up Konfirmasi -->
+            <div class="popup-overlay" id="popupOverlay">
+                <div class="popup">
+                    <h3>Apakah Anda yakin ingin menghapus sampah ini?</h3>
+                    <div>
+                        <a th:href = '@{/pemilik/kelolaSampah}'><button class="confirm" id="confirmDelete">Hapus</button></a>
+                        <button class="cancel" id="cancelDelete">Batal</button>
+                    </div>
+                </div>
+            </div>
+        
+            <script>
+                //script pop up
+                const deleteButton = document.getElementById('deleteButton');
+                const popupOverlay = document.getElementById('popupOverlay');
+                const confirmDelete = document.getElementById('confirmDelete');
+                const cancelDelete = document.getElementById('cancelDelete');
+        
+                deleteButton.addEventListener('click', () => {
+                    popupOverlay.classList.add('active');
+                });
+        
+                //redirect ke kelola_member.html
+                confirmDelete.addEventListener('click', () => {
+                    popupOverlay.classList.remove('active');
+                    // window.location.href = 'kelola_member.html';
+                    //idk which one
+                    // window.location.href = '@{/pemilik/kelolaMember}' 
+                });
+        
+                // Menutup pop-up jika tombol Batal ditekan
+                cancelDelete.addEventListener('click', () => {
+                    popupOverlay.classList.remove('active');
+                });
+            </script>
 </body>
 </html>
