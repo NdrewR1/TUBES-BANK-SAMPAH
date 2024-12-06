@@ -28,7 +28,7 @@ public class JdbcTransaksiKeDalamRepository implements TransaksiKeDalamRepositor
     
     @Override
     public List<TransaksiKeDalam> findPendapatanByDateRange(Timestamp startDate, Timestamp endDate, String name) {
-        String sql = "SELECT tanggal, SUM(total) AS total_pendapatan FROM transaksiMasuk " +
+        String sql = "SELECT tanggal, SUM(subtotal) AS total_pendapatan FROM transaksiMasuk " +
                      "WHERE namapengguna = ? AND tanggal BETWEEN ? AND ? GROUP BY tanggal ORDER BY tanggal ASC";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             TransaksiKeDalam transaksi = new TransaksiKeDalam();
