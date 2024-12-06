@@ -90,7 +90,24 @@ public class PenggunaController {
     
     @GetMapping("/laporan_pendapatan")
     public String showLaporan(Model model, HttpServletRequest request) {
+
+        LocalDate startDate = LocalDate.of(2024, 1, 1);
+        LocalDate endDate = LocalDate.now();
+
+        
+        // template tanggal
+        Timestamp startTimestamp = Timestamp.valueOf(startDate.atStartOfDay());
+        Timestamp endTimestamp = Timestamp.valueOf(endDate.atTime(23, 59, 59));
+
         User user = getAuthentication(request);
+        List<TransaksiKeDalam> pendapatan = repoTransaksiKeDalam.findPendapatanByDateRange(startTimestamp, endTimestamp, user.getNama());
+    
+        int totalPendapatanKeseluruhan = pendapatan.stream().mapToInt(TransaksiKeDalam::getTotal).sum();
+    
+        model.addAttribute("pendapatan", pendapatan);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("totalPendapatanKeseluruhan", totalPendapatanKeseluruhan);
         return "/pengguna/laporan_pendapatan";
     }
 
