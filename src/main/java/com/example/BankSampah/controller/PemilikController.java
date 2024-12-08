@@ -132,6 +132,20 @@ public class PemilikController {
         model.addAttribute("listUser", list);
         return "/pemilik/kelola_member";
     }
+
+    @PostMapping("/kelolaMember")
+    public String searchMember(@RequestParam("nama") String nama, Model model, HttpServletRequest request){
+        User user = getAuthentication(request);
+        
+        List<User> list = repoUser.findByName(nama);
+        if(list.isEmpty()){
+            model.addAttribute("message", "Nama tidak tersedia");
+        } else {
+            model.addAttribute("listUser", list);
+        }
+
+        return "/pemilik/kelola_member";
+    }
     
     @GetMapping("/editMember/{email}")
     public String editMemberPage(@PathVariable("email") String email, Model model, HttpServletRequest request) {
