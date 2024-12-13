@@ -7,6 +7,7 @@ import java.util.List;
 public interface KecamatanRepository {
     List<Kecamatan> findAll();
     Kecamatan mapRowToKecamatan(ResultSet resultSet, int rowNum) throws SQLException;
+    List<Kecamatan> findByIdKec(int idKec);
 
     
 }

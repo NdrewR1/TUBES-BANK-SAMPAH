@@ -141,6 +141,14 @@ public class PemilikController {
         model.addAttribute("nomor_hp", now.getNoHp());
         model.addAttribute("email", now.getEmail());
         model.addAttribute("alamat", now.getAlamat());
+        Kelurahan kel = repoKel.findByIdKel(now.getIdKel()).get(0);
+        Kecamatan kec = repoKec.findByIdKec(kel.getIdKec()).get(0);
+        List<Kecamatan> listKec = repoKec.findAll();
+        List<Kelurahan> listKel = repoKel.findByIdKec(kec.getIdKec());
+        model.addAttribute("listKec", listKec);
+        model.addAttribute("listKel", listKel);
+        model.addAttribute("kecamatan", kec);
+        model.addAttribute("kelurahan", kel);
         return "/pemilik/edit_member";
     }
 
@@ -151,10 +159,11 @@ public class PemilikController {
         @RequestParam String nomor_hp,
         @RequestParam String email,
         @RequestParam String alamat,
+        @RequestParam("kelurahan") String kelurahan,
         Model model, HttpServletRequest request){
         User user = getAuthentication(request);
         User now = repoUser.findByEmail(oldEmail).get(0);
-        repoUser.updateUser(now.getIdPengguna(), nama, nomor_hp, alamat, email);
+        repoUser.updateUser(now.getIdPengguna(), nama, nomor_hp, alamat, email,Integer.parseInt(kelurahan));
         return "redirect:/pemilik/kelolaMember";
     }
 

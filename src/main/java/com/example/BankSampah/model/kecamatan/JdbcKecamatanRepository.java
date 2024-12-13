@@ -27,5 +27,9 @@ public class JdbcKecamatanRepository implements KecamatanRepository{
         );
     }
 
-    
+    @Override
+    public List<Kecamatan> findByIdKec(int idKec) {
+        String sql = "SELECT * FROM kecamatan WHERE idKec = ?";
+        return jdbcTemplate.query(sql,this::mapRowToKecamatan, idKec);
+    }
 }
