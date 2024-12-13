@@ -163,8 +163,8 @@ public class PemilikController {
         User user = getAuthentication(request);
         List<Kecamatan> listKec = repoKec.findAll();
         model.addAttribute("listKec", listKec);
-        List<Kelurahan> listKel = repoKel.findAll();
-        model.addAttribute("listKel", listKel);
+        // List<Kelurahan> listKel = repoKel.findAll();
+        // model.addAttribute("listKel", listKel);
         return "/pemilik/tambah_member";
     }
 
