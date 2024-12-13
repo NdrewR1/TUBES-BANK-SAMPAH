@@ -34,5 +34,9 @@ public class JdbcKelurahanRepository implements KelurahanRepository{
         return jdbcTemplate.query(sql,this::mapRowToKelurahan, idKec);
     }
 
-    
+    @Override
+    public List<Kelurahan> findByIdKel(int idKel) {
+        String sql = "SELECT * FROM kelurahan WHERE idKel = ?";
+        return jdbcTemplate.query(sql,this::mapRowToKelurahan, idKel);
+    }
 }

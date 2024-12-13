@@ -28,9 +28,9 @@ public class JdbcUserRepository implements UserRepository{
     
 
     @Override
-    public int updateUser(int idPengguna, String nama, String noHp, String alamat, String email) {
-        String sql = "UPDATE Pengguna SET nama = ?, noHp = ?, alamat = ?, email = ? WHERE idPengguna = ?";
-        return jdbcTemplate.update(sql, nama, noHp, alamat, email, idPengguna);
+    public int updateUser(int idPengguna, String nama, String noHp, String alamat, String email, int idKel) {
+        String sql = "UPDATE Pengguna SET nama = ?, noHp = ?, alamat = ?, email = ?, idKel = ? WHERE idPengguna = ?";
+        return jdbcTemplate.update(sql, nama, noHp, alamat, email, idKel, idPengguna);
     }
 
     @Override
