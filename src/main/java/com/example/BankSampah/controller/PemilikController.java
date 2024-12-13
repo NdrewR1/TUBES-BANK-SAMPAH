@@ -214,6 +214,16 @@ public class PemilikController {
         return "/pemilik/edit_sampah";
     }
 
+    @GetMapping("/editSampah/{namaSampah}")
+    public String editSampahPage(@PathVariable("namaSampah") String namaSampah, Model model, HttpServletRequest request) {
+        User user = getAuthentication(request);
+        Sampah now = repoSampah.findByNama(namaSampah).get(0);
+
+        model.addAttribute("", now);
+
+        return "/pemilik/edit_sampah";
+    }
+
     @GetMapping("/tambahSampah")
     public String addSampahPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
