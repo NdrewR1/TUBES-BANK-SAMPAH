@@ -27,7 +27,7 @@
     <main>
         <h2>Formulir Pengubahan Data Sampah</h2>
         <section    >
-            <!-- <form th:action="@{pemilik/editSampah/{sampahOld}/ubah{sampahOld=${idSampah}}}" method="post"> -->
+            <form th:action="@{pemilik/editSampah/{sampahOld}/ubah{sampahOld=${idSampah}}}" method="post">
                 <div>
                     <label for="jenis-sampah">Nama Jenis Sampah:</label>
                     <input type="text" id="jenis-sampah" name="jenis-sampah" value="Kertas" required>  
@@ -42,11 +42,9 @@
                 </div>
                 <div>
                     <button id="saveButton" type="submit">Simpan Perubahan</button>
-
-                    <button id="deleteButton">Hapus</button>
-                    <a th:href="@{/pemilik/kelolaSampah}" class="button"><button>Batal</button></a>
                 </div>
-            <!-- </form> -->
+            </form>
+            <a th:href="@{/pemilik/kelolaMember}" class="button"><button>Batal</button></a>
         </section>
     </main>
 
