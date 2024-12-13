@@ -66,5 +66,58 @@
     <footer>
         <p>&copy; 2024 Bank Sampah Daur Ulang. All rights reserved.</p>
     </footer>
+    <script>
+        console.log("hahi");
+        function updateKelurahan(kecamatanId) {
+            const kelurahanSelect = document.getElementById('kelurahan');
+            kelurahanSelect.innerHTML = '<option value="">-- Pilih Kelurahan --</option>';
+    
+            if (!kecamatanId) return;
+            console.log(`Fetching kelurahan for kecamatanId: ${kecamatanId}`); 
+
+            fetch(`/pemilik/kelurahan?kecamatanId=${kecamatanId}`)
+                .then(response => {
+                    console.log("Response status:", response.status);  
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Kelurahan data:", data);  
+                    if (data && data.length > 0) {
+                        data.forEach(function(kelurahan) {
+                            const option = document.createElement('option');
+                            option.value = kelurahan.idKel;
+                            option.textContent = kelurahan.namaKel;
+                            kelurahanSelect.appendChild(option);
+                        });
+                    } else {
+                        const option = document.createElement('option');
+                        option.value = "";
+                        option.textContent = "Tidak ada kelurahan";
+                        kelurahanSelect.appendChild(option);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching kelurahan:', error);
+                    const option = document.createElement('option');
+                    option.value = "";
+                    option.textContent = "Terjadi kesalahan";
+                    kelurahanSelect.appendChild(option);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const kecamatanSelect = document.getElementById("kecamatan");
+            if (kecamatanSelect) {
+                console.log("Kecamatan select found!"); 
+                kecamatanSelect.addEventListener("change", function() {
+                    const kecamatanId = this.value;
+                    console.log("Kecamatan ID:", kecamatanId);  
+                    updateKelurahan(kecamatanId); 
+                });
+            } else {
+                console.log("Kecamatan select not found.");
+            }
+        });
+    </script>
 </body>
 </html>
