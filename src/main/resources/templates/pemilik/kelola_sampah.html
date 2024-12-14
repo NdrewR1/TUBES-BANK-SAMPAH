@@ -53,7 +53,7 @@
                     <td th:text="${sampah.nama}"></td>
                     <td th:text="${sampah.satuankuantitas}"></td>
                     <td th:text="${sampah.harga}"></td>
-                    <td><a th:href="@{/pemilik/editSampah}"><button>Edit</button></a></td>
+                    <td><a th:href="@{/pemilik/editSampah/{namaSampah}(namaSampah=${sampah.nama})}"><button>Edit</button></a></td>
                 </tr>
                 <!-- Tambahkan jenis sampah lainnya di sini -->
             </tbody>

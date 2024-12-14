@@ -116,7 +116,7 @@ SELECT
 FROM
     Sampah s
 JOIN
-    Harga h ON s.idSampah = h.idSampah
+    Harga h ON s.idhargasekarang = h.idharga
 JOIN
     SatuanKuantitas sq ON s.idSatuanKuantitas = sq.idSatuanKuantitas;
 

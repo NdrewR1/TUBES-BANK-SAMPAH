@@ -75,28 +75,28 @@
     </div>
 
     <script>
-        //script pop up
-        const deleteButton = document.getElementById('deleteButton');
-        const popupOverlay = document.getElementById('popupOverlay');
-        const confirmDelete = document.getElementById('confirmDelete');
-        const cancelDelete = document.getElementById('cancelDelete');
+        // script pop up
+        // const deleteButton = document.getElementById('deleteButton');
+        // const popupOverlay = document.getElementById('popupOverlay');
+        // const confirmDelete = document.getElementById('confirmDelete');
+        // const cancelDelete = document.getElementById('cancelDelete');
 
-        deleteButton.addEventListener('click', () => {
-            popupOverlay.classList.add('active');
-        });
+        // deleteButton.addEventListener('click', () => {
+        //     popupOverlay.classList.add('active');
+        // });
 
-        //redirect ke kelola_member.html
-        confirmDelete.addEventListener('click', () => {
-            popupOverlay.classList.remove('active');
-            // window.location.href = 'kelola_member.html';
-            //idk which one
-            // window.location.href = '@{/pemilik/kelolaMember}' 
-        });
+        // //redirect ke kelola_member.html
+        // confirmDelete.addEventListener('click', () => {
+        //     popupOverlay.classList.remove('active');
+        //     // window.location.href = 'kelola_member.html';
+        //     //idk which one
+        //     // window.location.href = '@{/pemilik/kelolaMember}' 
+        // });
 
-        // Menutup pop-up jika tombol Batal ditekan
-        cancelDelete.addEventListener('click', () => {
-            popupOverlay.classList.remove('active');
-        });
+        // // Menutup pop-up jika tombol Batal ditekan
+        // cancelDelete.addEventListener('click', () => {
+        //     popupOverlay.classList.remove('active');
+        // });
 
         console.log("hahi");
         function updateKelurahan(kecamatanId) {

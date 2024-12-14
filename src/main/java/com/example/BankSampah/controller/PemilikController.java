@@ -208,20 +208,47 @@ public class PemilikController {
         return "/pemilik/kelola_sampah";
     }
 
-    @GetMapping("/editSampah")
-    public String showEditSampah(Model model, HttpServletRequest request) {
+    @GetMapping("/editSampah/{namaSampah}")
+    public String showEditSampah(@PathVariable("namaSampah") String namaSampah, Model model, HttpServletRequest request) {
         User user =getAuthentication(request);
+        Sampah sampah = repoSampah.findByNama(namaSampah).get(0);
+        model.addAttribute("nama", sampah.getNamaSampah());
+        SatuanKuantitas sk = repoSK.findByIdSK(sampah.getIdSatuanKuantitas()).get(0);
+        model.addAttribute("satuanKuantitas", sk.getNamaSatuanKuantitas());
+        Harga harga = repoHarga.findByIdSampah(sampah.getIdSampah()).get(0);
+        model.addAttribute("harga", harga.getHargaSampah());
         return "/pemilik/edit_sampah";
     }
 
-    @GetMapping("/editSampah/{namaSampah}")
-    public String editSampahPage(@PathVariable("namaSampah") String namaSampah, Model model, HttpServletRequest request) {
-        User user = getAuthentication(request);
-        Sampah now = repoSampah.findByNama(namaSampah).get(0);
+    @PostMapping("/editSampah/{namaSampahOld}/ubah")
+    public String ubahSampah(
+        @PathVariable("namaSampahOld") String oldNamaSampah,
+        @RequestParam String namaSampah,
+        @RequestParam String satuanKuantitas,
+        @RequestParam String harga,
+        Model model, HttpServletRequest request){
+            Sampah oldSampah = repoSampah.findByNama(oldNamaSampah).get(0);
+            User user = getAuthentication(request);
 
-        model.addAttribute("", now);
+            List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
+            if(listSK.isEmpty()){
+                repoSK.addSK(satuanKuantitas);
+            }
+            listSK = repoSK.findBy(satuanKuantitas);
+            SatuanKuantitas nowSK = listSK.get(0);
 
-        return "/pemilik/edit_sampah";
+            repoSampah.updateSampah(namaSampah, nowSK.getIdSatuanKuantitas(), oldSampah.getIdSampah());
+
+            List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
+            Sampah nowSampah = listSampah.get(0);
+            repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+
+            List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+
+            Harga nowHarga = listHarga.get(0);
+            repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
+
+            return "redirect:/pemilik/kelolaSampah";
     }
 
     @GetMapping("/tambahSampah")

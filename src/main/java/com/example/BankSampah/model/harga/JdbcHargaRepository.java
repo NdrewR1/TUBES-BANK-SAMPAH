@@ -25,12 +25,16 @@ public class JdbcHargaRepository implements HargaRepository {
         return jdbcTemplate.update(sql, idSampah,hargaSampah);
     }
 
-    
-
     @Override
     public List<Harga> findByIdSampahHarga(int idSampah, int hargaSampah) {
         String sql = "SELECT * FROM Harga WHERE idSampah = ? AND hargaSampah = ? ORDER BY tanggalUbah DESC";
         return jdbcTemplate.query(sql, this::mapRowToHarga,idSampah,hargaSampah);
+    }
+
+    @Override
+    public List<Harga> findByIdSampah(int idSampah) {
+        String sql = "SELECT * FROM Harga WHERE idSampah = ? ORDER BY tanggalUbah DESC";
+        return jdbcTemplate.query(sql, this::mapRowToHarga,idSampah);
     }
 
     @Override

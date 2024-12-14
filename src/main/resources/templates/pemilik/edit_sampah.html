@@ -27,24 +27,26 @@
     <main>
         <h2>Formulir Pengubahan Data Sampah</h2>
         <section    >
-            <form th:action="@{pemilik/editSampah/{sampahOld}/ubah{sampahOld=${idSampah}}}" method="post">
+            <form th:action="@{/pemilik/editSampah/{namaSampahOld}/ubah(namaSampahOld=${nama})}" method="post">
                 <div>
-                    <label for="jenis-sampah">Nama Jenis Sampah:</label>
-                    <input type="text" id="jenis-sampah" name="jenis-sampah" value="Kertas" required>  
+                    <label for="jenis-sampah">Nama Jenis Sampah: <span th:text="${nama}"></span></label>
+                    <input type="hidden" id="jenis-sampah" name="namaSampah" th:value="${nama}" required>  
                 </div>
                 <div>
-                    <label for="satuan">Satuan:</label>
-                    <input type="text" id="satuan" name="satuan" value="Kg" required>
+                    <label for="satuan">Satuan: <span th:text="${satuanKuantitas}"></span></label>
+                    <input type="hidden" id="satuan" name="satuanKuantitas" th:value="${satuanKuantitas}" required>
                 </div>
                 <div>
                     <label for="harga-beli">Harga Beli (Rp):</label>
-                    <input type="number" id="harga-beli" name="harga-beli" value="1000" required>
+                    <input type="number" id="harga-beli" name="harga" th:value="${harga}" required>
                 </div>
                 <div>
                     <button id="saveButton" type="submit">Simpan Perubahan</button>
+
+                    <!-- <button id="deleteButton">Hapus</button> -->
+                    <a th:href="@{/pemilik/kelolaSampah}" class="button"><button>Batal</button></a>
                 </div>
             </form>
-            <a th:href="@{/pemilik/kelolaMember}" class="button"><button>Batal</button></a>
         </section>
     </main>
 
@@ -64,28 +66,28 @@
             </div>
         
             <script>
-                //script pop up
-                const deleteButton = document.getElementById('deleteButton');
-                const popupOverlay = document.getElementById('popupOverlay');
-                const confirmDelete = document.getElementById('confirmDelete');
-                const cancelDelete = document.getElementById('cancelDelete');
+                // //script pop up
+                // const deleteButton = document.getElementById('deleteButton');
+                // const popupOverlay = document.getElementById('popupOverlay');
+                // const confirmDelete = document.getElementById('confirmDelete');
+                // const cancelDelete = document.getElementById('cancelDelete');
         
-                deleteButton.addEventListener('click', () => {
-                    popupOverlay.classList.add('active');
-                });
+                // deleteButton.addEventListener('click', () => {
+                //     popupOverlay.classList.add('active');
+                // });
         
-                //redirect ke kelola_member.html
-                confirmDelete.addEventListener('click', () => {
-                    popupOverlay.classList.remove('active');
-                    // window.location.href = 'kelola_member.html';
-                    //idk which one
-                    // window.location.href = '@{/pemilik/kelolaMember}' 
-                });
+                // //redirect ke kelola_member.html
+                // confirmDelete.addEventListener('click', () => {
+                //     popupOverlay.classList.remove('active');
+                //     // window.location.href = 'kelola_member.html';
+                //     //idk which one
+                //     // window.location.href = '@{/pemilik/kelolaMember}' 
+                // });
         
-                // Menutup pop-up jika tombol Batal ditekan
-                cancelDelete.addEventListener('click', () => {
-                    popupOverlay.classList.remove('active');
-                });
+                // // Menutup pop-up jika tombol Batal ditekan
+                // cancelDelete.addEventListener('click', () => {
+                //     popupOverlay.classList.remove('active');
+                // });
             </script>
 </body>
 </html>

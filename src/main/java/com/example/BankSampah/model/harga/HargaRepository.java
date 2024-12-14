@@ -9,4 +9,5 @@ public interface HargaRepository {
     List<Harga> findAll();
     int addHarga(int idSampah, int hargaSampah);
     List<Harga> findByIdSampahHarga(int idSampah, int hargaSampah);
+    List<Harga> findByIdSampah(int idSampah);
 }
