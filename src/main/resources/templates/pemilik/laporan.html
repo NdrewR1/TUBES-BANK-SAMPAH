@@ -26,37 +26,26 @@
 
     <main>
         <h2>Laporan Transaksi</h2>
+        <label>
+            <!-- <p>Total Rp. : <span th:text="${totalPendapatan}"></span></p> -->
+            <p>Total Rp. : </p>
+        </label>
         <table>
             <thead>
                 <tr>
-                    <th>Tanggal</th>
-                    <th>Jenis Sampah</th>
-                    <th>Kuantitas Masuk</th>
-                    <th>Kuantitas Keluar</th>
-                    <!-- <th>Saldo</th> -->
+                    <th>Nama Sampah</th>
+                    <th>Satuan Kuantitas</th>
+                    <th>Jumlah Masuk ke Bank</th>
+                    <th>Jumlah Masuk ke Pusat</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>01-10-2023</td>
-                    <td>Botol Plastik 600ml</td>
-                    <td>5</td>
-                    <td>0</td>
-                    <!-- <td>5</td> -->
-                </tr>
-                <tr>
-                    <td>05-10-2023</td>
-                    <td>Kardus</td>
-                    <td>2</td>
-                    <td>0</td>
-                    <!-- <td>2</td> -->
-                </tr>
-                <tr>
-                    <td>10-10-2023</td>
-                    <td>Botol Plastik 600ml</td>
-                    <td>0</td>
-                    <td>3</td>
-                    <!-- <td>2</td> -->
+                <tr th:each="laporan : ${listLaporan}">
+                    <td th:text="${laporan['namasampah']}"></td>
+                    <td th:text="${laporan['satuankuantitas']}"></td>
+                    <td th:text="${laporan.total_kuantitas}"></td>
+                    <td>-</td>
+                    <!-- <td th:text="${laporan['kuantitas_ke_pusat']}"></td> -->
                 </tr>
             </tbody>
         </table>
