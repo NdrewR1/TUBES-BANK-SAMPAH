@@ -39,6 +39,16 @@
                 <h2>Daftar Member</h2>
                 <a th:href="@{/pemilik/tambahMember}"><button>Tambah Member</button></a>
             </div>
+            
+            <form action="/pemilik/kelolaMember" method="post" style="margin-bottom: 20px;">
+                <input type="text" name="nama" placeholder="Cari member berdasarkan nama" required>
+                <button type="submit">Cari</button>
+            </form>
+
+            <div th:if="${message}" style="color: red">
+                <p th:text="${message}"></p>
+            </div>
+            
             <table>
                 <thead>
                     <tr>

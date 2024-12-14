@@ -25,6 +25,10 @@ public class JdbcUserRepository implements UserRepository{
         return jdbcTemplate.query(sql, this::mapRowToUser,email);
     }
 
+    public List<User> findByName(String nama){
+        String sql = "SELECT * FROM Pengguna WHERE nama iLIKE ?";
+        return jdbcTemplate.query(sql, this::mapRowToUser, "%" + nama + "%");
+    }
     
 
     @Override
@@ -42,8 +46,8 @@ public class JdbcUserRepository implements UserRepository{
             resultSet.getInt("idPengguna"),
             resultSet.getString("noHp"),
             resultSet.getString("alamat"),
-            resultSet.getInt("idKel")
-            ,resultSet.getString("nama")
+            resultSet.getInt("idKel"),
+            resultSet.getString("nama")
         );
     }
 
