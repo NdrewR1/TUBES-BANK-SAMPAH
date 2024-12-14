@@ -17,7 +17,7 @@
                 <li><a th:href="@{/pemilik/kelolaMember}">Kelola Member</a></li>
                 <li><a th:href="@{/pemilik/transaksi}" id="current_page">Transaksi</a></li>
                 <li><a th:href="@{/pemilik/transaksiKePusat}">Penyetoran ke Pusat</a></li>
-                <!-- <li><a th:href="@{/pemilik/laporan}">Laporan</a></li> -->
+                <li><a th:href="@{/pemilik/laporan}">Inventory</a></li>
                 <li><a th:href="@{/logoutPage}">Logout</a></li>
             </ul>
         </nav>
@@ -34,8 +34,9 @@
                     <th>Tanggal</th>
                     <th>Member</th>
                     <th>Jenis Sampah</th>
-                    <th>Kuantitas</th>
-                    <th>satuanKuantitas</th>
+                    <th>Jumlah</th>
+                    <th>Satuan <br>Kuantitas</th>
+                    <th>Harga Beli (Rp) / <br> Satuan Kuantitas</th>
                     <th>SubTotal (Rp)</th>
                     <th>Total (Rp)</th>
                 </tr>
@@ -47,6 +48,7 @@
                     <td th:text="${transaksi.namaSampah}"></td>
                     <td th:text="${transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.satuanKuantitas}"></td>
+                    <td th:text="${transaksi.subTotal/transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.subTotal}"></td>
 
                     <td th:if="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index - 1].tanggal != transaksi.tanggal)}" 

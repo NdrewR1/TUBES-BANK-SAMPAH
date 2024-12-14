@@ -413,6 +413,11 @@ public class PemilikController {
     @GetMapping("/laporan")
     public String laporanPage(Model model, HttpServletRequest request){
         User user = getAuthentication(request);
+        
+        List<Map<String, Object>> laporanSampah = repoTransaksiKeDalam.getLaporanSampah();
+
+        model.addAttribute("listLaporan", laporanSampah);
+        // model.addAttribute("listLaporan", laporanKePusat);
         return "/pemilik/laporan";
     }
     
