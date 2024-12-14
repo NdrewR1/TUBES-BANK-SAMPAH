@@ -44,6 +44,12 @@ public class JdbcSampahRepository implements SampahRepository {
     }
 
     @Override
+    public int updateSampah(String namaSampah, int idSatuanKuantitas, int idSampah) {
+        String sql = "UPDATE Sampah SET idSatuanKuantitas = ?, namaSampah = ? WHERE idSampah = ?";
+        return jdbcTemplate.update(sql,idSatuanKuantitas,namaSampah,idSampah);
+    }
+
+    @Override
     public Sampah mapRowToSampah(ResultSet resultSet, int rowNum) throws SQLException {
         return new Sampah(
             resultSet.getInt("idSampah"),

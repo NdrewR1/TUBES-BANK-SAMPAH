@@ -26,9 +26,15 @@ public class JdbcSatuanKuantitasRepository implements SatuanKuantitasRepository 
     }
 
     @Override
+    public List<SatuanKuantitas> findByIdSK(int idSK) {
+        String sql = "SELECT * FROM SatuanKuantitas WHERE idSatuanKuantitas = ?";
+        return jdbcTemplate.query(sql, this::mapRowToSatuanKuantitas, idSK);
+    }
+
+    @Override
     public int addSK(String nama) {
-        String sql = "INSERT INTO SatuanKuantitas(namaSatuanKuantitas) VALUES(?) ";
-        return jdbcTemplate.update(sql, nama);
+        String sql = "INSERT INTO SatuanKuantitas(namaSatuanKuantitas) VALUES(?) RETURNING idSatuanKuantitas";
+        return jdbcTemplate.queryForObject(sql,Integer.class, nama);
     }
 
     @Override
