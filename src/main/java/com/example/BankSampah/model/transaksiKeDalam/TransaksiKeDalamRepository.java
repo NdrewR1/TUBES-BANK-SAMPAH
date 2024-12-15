@@ -11,6 +11,6 @@ public interface TransaksiKeDalamRepository {
     List<TransaksiKeDalam> findByUsername(String name);
     TransaksiKeDalam mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException;
     List<TransaksiKeDalam> findPendapatanByDateRange(Timestamp startDate, Timestamp endDate, String name);
-
+    List<TransaksiKeDalam> findTransaksiByDateRange(Timestamp startDate, Timestamp endDate);
     List<Map<String, Object>> getLaporanSampah();
 }

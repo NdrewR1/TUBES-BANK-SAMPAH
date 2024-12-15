@@ -1,11 +1,13 @@
 package com.example.BankSampah.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -317,6 +319,30 @@ public class PemilikController {
         }
         model.addAttribute("total", total);
         // model.addAttribute("baris", listTransaksi.size());
+        return "/pemilik/transaksi";
+    }
+
+    @PostMapping("transaksi")
+    public String filterTransaksi(
+        @RequestParam(value = "start_date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam(value ="end_date", required =  false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+        Model model,
+        HttpServletRequest request){
+        
+        List<TransaksiKeDalam> listTransaksi;
+        if(startDate == null || endDate == null){
+            listTransaksi = repoTransaksiKeDalam.findAll();
+        } else {
+            Timestamp start = Timestamp.valueOf(startDate.atStartOfDay());
+            Timestamp end = Timestamp.valueOf(endDate.atTime(23, 59, 59));
+            listTransaksi = repoTransaksiKeDalam.findTransaksiByDateRange(start, end);
+        }
+        
+        if(listTransaksi.isEmpty()){
+            model.addAttribute("message", "Tidak ada transaksi");
+        }
+
+        model.addAttribute("listTransaksiMasuk", listTransaksi);
         return "/pemilik/transaksi";
     }
 
