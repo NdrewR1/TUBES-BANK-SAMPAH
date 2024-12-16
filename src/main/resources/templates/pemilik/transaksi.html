@@ -47,7 +47,7 @@
                     <th>Jenis Sampah</th>
                     <th>Jumlah</th>
                     <th>Satuan <br>Kuantitas</th>
-                    <!-- <th>Harga Beli (Rp) / <br> Satuan Kuantitas</th> -->
+                    <th>Harga Beli (Rp) / <br> Satuan Kuantitas</th>
                     <th>SubTotal (Rp)</th>
                     <th>Total (Rp)</th>
                 </tr>
@@ -59,6 +59,7 @@
                     <td th:text="${transaksi.namaSampah}"></td>
                     <td th:text="${transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.satuanKuantitas}"></td>
+                    <td th:text="${transaksi.subTotal/transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.subTotal}"></td>
                     <td th:text="${transaksi.total}"></td>
                 </tr>
@@ -68,6 +69,7 @@
 
             </tbody>
         </table>
+        <p>Total Transaksi : Rp. <span th:text="${total}"></span></p>
     </main>
 
     <footer>

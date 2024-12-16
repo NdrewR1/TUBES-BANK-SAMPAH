@@ -342,6 +342,11 @@ public class PemilikController {
             model.addAttribute("message", "Tidak ada transaksi");
         }
 
+        int total = 0;
+        for(int i = 0;i < listTransaksi.size();i++){
+            total+= listTransaksi.get(i).getSubTotal();
+        }
+        model.addAttribute("total", total);
         model.addAttribute("listTransaksiMasuk", listTransaksi);
         return "/pemilik/transaksi";
     }
