@@ -48,6 +48,12 @@ public class JdbcTransaksiKeDalamRepository implements TransaksiKeDalamRepositor
     }
 
     @Override
+    public List<TransaksiKeDalam> findTransaksiByDateRange(Timestamp startDate, Timestamp endDate){
+        String sql = "SELECT * FROM transaksiMasuk WHERE tanggal BETWEEN ? AND ?";
+        return jdbcTemplate.query(sql, this::mapRowToSatuanKuantitas, startDate, endDate);
+    }
+
+    @Override
     public TransaksiKeDalam mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException {
         return new TransaksiKeDalam(
             resultSet.getTimestamp("tanggal"), 

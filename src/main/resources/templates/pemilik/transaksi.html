@@ -28,6 +28,17 @@
             <h2>Daftar Transaksi</h2>
             <a th:href="@{/pemilik/tambahTransaksi}"><button>Tambah Transaksi</button></a>
         </div>
+
+        <div>
+            <form action="/pemilik/transaksi" method="post">
+                <label for="start_date">Tanggal Mulai:</label>
+                <input type="date" id="start_date" name="start_date">
+                <label for="end_date">Tanggal Akhir:</label>
+                <input type="date" id="end_date" name="end_date">
+                <button type="submit">Tampilkan Laporan</button>
+            </form>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -42,20 +53,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="transaksi, iterStat : ${listTransaksiMasuk}">
-                    <td th:text="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index-1].tanggal != transaksi.tanggal) ? transaksi.tanggal : ''}"></td>
-                    <td th:text="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index-1].tanggal != transaksi.tanggal) ? transaksi.namaPengguna : ''}"></td>
+                <tr th:each="transaksi : ${listTransaksiMasuk}">
+                    <td th:text="${transaksi.tanggal}"></td>
+                    <td th:text="${transaksi.namaPengguna}"></td>
                     <td th:text="${transaksi.namaSampah}"></td>
                     <td th:text="${transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.satuanKuantitas}"></td>
                     <td th:text="${transaksi.subTotal/transaksi.jumlahSampah}"></td>
                     <td th:text="${transaksi.subTotal}"></td>
-
-                    <td th:if="${iterStat.index == 0 || (iterStat.index > 0 && listTransaksiMasuk[iterStat.index - 1].tanggal != transaksi.tanggal)}" 
-                        th:text="${transaksi.total}"></td>
+                    <td th:text="${transaksi.total}"></td>
                 </tr>
+                <tr th:if="${#lists.isEmpty(listTransaksiMasuk)}">
+                    <td colspan="7" style="text-align: center;">Tidak ada transaksi ditemukan.</td>
+                </tr>
+
             </tbody>
         </table>
+        <p>Total Transaksi : Rp. <span th:text="${total}"></span></p>
     </main>
 
     <footer>
