@@ -28,6 +28,16 @@
             <h2>Daftar Penyetoran</h2>
             <a th:href="@{/pemilik/tambahTransaksiKePusat}"><button>Tambah Penyetoran</button></a>
         </div>
+        <div>
+            <h4>Jumlah Sisa Sampah di Gudang</h4>
+            <ul>
+                <li th:each="sampah : ${sisaSampah}">
+                    <span th:text="${sampah.namaSampah}"></span> : 
+                    <span th:text="${sampah.SisaGudang}"></span> 
+                    <span th:text="${sampah.namaSatuanKuantitas}"></span>
+                </li>
+            </ul>
+        </div>              
         <table>
             <thead>
                 <tr>

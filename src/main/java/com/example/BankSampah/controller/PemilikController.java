@@ -72,29 +72,28 @@ public class PemilikController {
 
     @Autowired
     SampahRepository repoSampah;
-    
+
     @Autowired
     HargaRepository repoHarga;
 
     @Autowired
     NamaHargaSatuanRepository repoSampahView;
 
-    
     @Autowired
     CardRepository repoCard;
-    
+
     @Autowired
     TransaksiKeluarRepository repoTransaksiKeluar;
-    
+
     @Autowired
     TransaksiKeluarSampahRepository repoTransaksiKeluarSampah;
-    
+
     @Autowired
     TransaksiMasukRepository repoTransaksiMasuk;
-    
+
     @Autowired
     TransaksiMasukSampahRepository repoTransaksiMasukSampah;
-    
+
     @Autowired
     InventoryRepository repoInvent;
 
@@ -103,12 +102,12 @@ public class PemilikController {
 
     @Autowired
     TransaksiKeDalamRepository repoTransaksiKeDalam;
-    
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
     @GetMapping("/")
-    public String dashboard(Model model, HttpServletRequest request){
+    public String dashboard(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
@@ -126,7 +125,7 @@ public class PemilikController {
     }
 
     @GetMapping("/kelolaMember")
-    public String showMember(Model model, HttpServletRequest request){
+    public String showMember(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<User> list = repoUser.findAll();
         model.addAttribute("listUser", list);
@@ -134,11 +133,11 @@ public class PemilikController {
     }
 
     @PostMapping("/kelolaMember")
-    public String searchMember(@RequestParam("nama") String nama, Model model, HttpServletRequest request){
+    public String searchMember(@RequestParam("nama") String nama, Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
-        
+
         List<User> list = repoUser.findByName(nama);
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             model.addAttribute("message", "Nama tidak tersedia");
         } else {
             model.addAttribute("listUser", list);
@@ -146,7 +145,7 @@ public class PemilikController {
 
         return "/pemilik/kelola_member";
     }
-    
+
     @GetMapping("/editMember/{email}")
     public String editMemberPage(@PathVariable("email") String email, Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
@@ -168,21 +167,21 @@ public class PemilikController {
 
     @PostMapping("/editMember/{emailOld}/ubah")
     public String ubahMember(
-        @PathVariable("emailOld") String oldEmail,
-        @RequestParam String nama,
-        @RequestParam String nomor_hp,
-        @RequestParam String email,
-        @RequestParam String alamat,
-        @RequestParam("kelurahan") String kelurahan,
-        Model model, HttpServletRequest request){
+            @PathVariable("emailOld") String oldEmail,
+            @RequestParam String nama,
+            @RequestParam String nomor_hp,
+            @RequestParam String email,
+            @RequestParam String alamat,
+            @RequestParam("kelurahan") String kelurahan,
+            Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         User now = repoUser.findByEmail(oldEmail).get(0);
-        repoUser.updateUser(now.getIdPengguna(), nama, nomor_hp, alamat, email,Integer.parseInt(kelurahan));
+        repoUser.updateUser(now.getIdPengguna(), nama, nomor_hp, alamat, email, Integer.parseInt(kelurahan));
         return "redirect:/pemilik/kelolaMember";
     }
 
     @GetMapping("/tambahMember")
-    public String addMemberPage(Model model, HttpServletRequest request){
+    public String addMemberPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<Kecamatan> listKec = repoKec.findAll();
         model.addAttribute("listKec", listKec);
@@ -193,29 +192,28 @@ public class PemilikController {
 
     @PostMapping("/tambahMember/add")
     public String addMember(
-        @RequestParam(required = true) String nama,
-        @RequestParam(required = true) String nomor_hp, 
-        @RequestParam(required = true) String email, 
-        @RequestParam(required = true) String password,
-        @RequestParam(required = true) String confirm_password,
-        @RequestParam(required = true) String alamat,
-        @RequestParam(required = true) String kelurahan,
-        Model model, HttpServletRequest request, RedirectAttributes redirectAttributes){
-            String passwordNow = passwordEncoder.encode(password);
-            if(passwordEncoder.matches(confirm_password, passwordNow)){
-                repoUser.addUser(nama, passwordNow, nomor_hp, alamat, email, Integer.parseInt(kelurahan));
-                // redirectAttributes.addFlashAttribute("error", kelurahan);
-                // return "redirect:/pemilik/tambahMember";
-            }
-            else{
-                redirectAttributes.addFlashAttribute("error", "password didn't match");
-                return "redirect:/pemilik/tambahMember";
-            }
-            return "redirect:/pemilik/kelolaMember";
+            @RequestParam(required = true) String nama,
+            @RequestParam(required = true) String nomor_hp,
+            @RequestParam(required = true) String email,
+            @RequestParam(required = true) String password,
+            @RequestParam(required = true) String confirm_password,
+            @RequestParam(required = true) String alamat,
+            @RequestParam(required = true) String kelurahan,
+            Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        String passwordNow = passwordEncoder.encode(password);
+        if (passwordEncoder.matches(confirm_password, passwordNow)) {
+            repoUser.addUser(nama, passwordNow, nomor_hp, alamat, email, Integer.parseInt(kelurahan));
+            // redirectAttributes.addFlashAttribute("error", kelurahan);
+            // return "redirect:/pemilik/tambahMember";
+        } else {
+            redirectAttributes.addFlashAttribute("error", "password didn't match");
+            return "redirect:/pemilik/tambahMember";
+        }
+        return "redirect:/pemilik/kelolaMember";
     }
 
     @GetMapping("/kelolaSampah")
-    public String showSampah(Model model, HttpServletRequest request){
+    public String showSampah(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         Iterable<NamaHargaSatuan> list = repoSampahView.findAll();
         model.addAttribute("listSampah", list);
@@ -223,8 +221,9 @@ public class PemilikController {
     }
 
     @GetMapping("/editSampah/{namaSampah}")
-    public String showEditSampah(@PathVariable("namaSampah") String namaSampah, Model model, HttpServletRequest request) {
-        User user =getAuthentication(request);
+    public String showEditSampah(@PathVariable("namaSampah") String namaSampah, Model model,
+            HttpServletRequest request) {
+        User user = getAuthentication(request);
         Sampah sampah = repoSampah.findByNama(namaSampah).get(0);
         model.addAttribute("nama", sampah.getNamaSampah());
         SatuanKuantitas sk = repoSK.findByIdSK(sampah.getIdSatuanKuantitas()).get(0);
@@ -236,84 +235,85 @@ public class PemilikController {
 
     @PostMapping("/editSampah/{namaSampahOld}/ubah")
     public String ubahSampah(
-        @PathVariable("namaSampahOld") String oldNamaSampah,
-        @RequestParam String namaSampah,
-        @RequestParam String satuanKuantitas,
-        @RequestParam String harga,
-        Model model, HttpServletRequest request){
-            Sampah oldSampah = repoSampah.findByNama(oldNamaSampah).get(0);
-            User user = getAuthentication(request);
+            @PathVariable("namaSampahOld") String oldNamaSampah,
+            @RequestParam String namaSampah,
+            @RequestParam String satuanKuantitas,
+            @RequestParam String harga,
+            Model model, HttpServletRequest request) {
+        Sampah oldSampah = repoSampah.findByNama(oldNamaSampah).get(0);
+        User user = getAuthentication(request);
 
-            List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
-            if(listSK.isEmpty()){
-                repoSK.addSK(satuanKuantitas);
-            }
-            listSK = repoSK.findBy(satuanKuantitas);
-            SatuanKuantitas nowSK = listSK.get(0);
+        List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
+        if (listSK.isEmpty()) {
+            repoSK.addSK(satuanKuantitas);
+        }
+        listSK = repoSK.findBy(satuanKuantitas);
+        SatuanKuantitas nowSK = listSK.get(0);
 
-            repoSampah.updateSampah(namaSampah, nowSK.getIdSatuanKuantitas(), oldSampah.getIdSampah());
+        repoSampah.updateSampah(namaSampah, nowSK.getIdSatuanKuantitas(), oldSampah.getIdSampah());
 
-            List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
-            Sampah nowSampah = listSampah.get(0);
-            repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+        List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
+        Sampah nowSampah = listSampah.get(0);
+        repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
 
-            List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+        List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
 
-            Harga nowHarga = listHarga.get(0);
-            repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
+        Harga nowHarga = listHarga.get(0);
+        repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
 
-            return "redirect:/pemilik/kelolaSampah";
+        return "redirect:/pemilik/kelolaSampah";
     }
 
     @GetMapping("/tambahSampah")
-    public String addSampahPage(Model model, HttpServletRequest request){
+    public String addSampahPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         return "/pemilik/tambah_sampah";
     }
 
     @PostMapping("/tambahSampah/add")
     public String addSampah(
-        @RequestParam(required = true) String namaSampah,
-        @RequestParam(required = true) String satuanKuantitas, 
-        @RequestParam(required = true) String harga, 
-        Model model, HttpServletRequest request, RedirectAttributes redirectAttributes){
-            List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
-            if(listSK.isEmpty()){
-                repoSK.addSK(satuanKuantitas);
-            }
-            listSK = repoSK.findBy(satuanKuantitas);
-            SatuanKuantitas nowSK = listSK.get(0);
-            repoSampah.addSampah(namaSampah, nowSK.getIdSatuanKuantitas());
-
-            List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
-            Sampah nowSampah = listSampah.get(0);
-            repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
-            repoSampah.addToInvent(nowSampah.getIdSampah());
-
-            List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
-
-            Harga nowHarga = listHarga.get(0);
-            repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
-
-            return "redirect:/pemilik/kelolaSampah";
+            @RequestParam(required = true) String namaSampah,
+            @RequestParam(required = true) String satuanKuantitas,
+            @RequestParam(required = true) String harga,
+            Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        List<SatuanKuantitas> listSK = repoSK.findBy(satuanKuantitas);
+        if (listSK.isEmpty()) {
+            repoSK.addSK(satuanKuantitas);
         }
+        listSK = repoSK.findBy(satuanKuantitas);
+        SatuanKuantitas nowSK = listSK.get(0);
+        repoSampah.addSampah(namaSampah, nowSK.getIdSatuanKuantitas());
+
+        List<Sampah> listSampah = repoSampah.findByNama(namaSampah);
+        Sampah nowSampah = listSampah.get(0);
+        repoHarga.addHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+        repoSampah.addToInvent(nowSampah.getIdSampah());
+
+        List<Harga> listHarga = repoHarga.findByIdSampahHarga(nowSampah.getIdSampah(), Integer.parseInt(harga));
+
+        Harga nowHarga = listHarga.get(0);
+        repoSampah.setHarga(nowSampah.getNamaSampah(), nowHarga.getIdHarga());
+
+        return "redirect:/pemilik/kelolaSampah";
+    }
 
     @GetMapping("/transaksi")
-    public String transaksiPage(Model model, HttpServletRequest request){
+    public String transaksiPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<TransaksiKeDalam> listTransaksi = repoTransaksiKeDalam.findAll();
         model.addAttribute("listTransaksiMasuk", listTransaksi);
 
         // Map<String, List<TransaksiKeDalam>> groupedTransaksi = listTransaksi.stream()
-        //     .collect(Collectors.groupingBy(t -> t.getTanggal().toString() +"="+ t.getNamaPengguna()));
+        // .collect(Collectors.groupingBy(t -> t.getTanggal().toString() +"="+
+        // t.getNamaPengguna()));
 
         // Add the grouped transaksi to the model for display in the view
         // model.addAttribute("groupedTransaksi", groupedTransaksi);
         // model.addAttribute("error2", groupedTransaksi);
 
         int total = 0;
-        for(int i = 0;i < listTransaksi.size();i++){
-            total+= listTransaksi.get(i).getSubTotal();
+        for (int i = 0; i < listTransaksi.size(); i++) {
+            total += listTransaksi.get(i).getSubTotal();
         }
         model.addAttribute("total", total);
         // model.addAttribute("baris", listTransaksi.size());
@@ -321,7 +321,7 @@ public class PemilikController {
     }
 
     @GetMapping("/tambahTransaksi")
-    public String addTransaksiPage(Model model, HttpServletRequest request){
+    public String addTransaksiPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<Card> list = repoCard.findAll();
         model.addAttribute("listKet", list);
@@ -334,15 +334,14 @@ public class PemilikController {
 
     @PostMapping("/tambahTransaksi/add")
     public String addTransaksi(
-        @RequestParam("member") String member,
-        @RequestParam("nama[]") List<String> nama,
-        @RequestParam("harga[]") List<String> harga,
-        @RequestParam("satuan[]") List<String> satuan,
-        @RequestParam("kuantitas[]") List<String> kuantitas,
-        Model model, HttpServletRequest request)
-    {
+            @RequestParam("member") String member,
+            @RequestParam("nama[]") List<String> nama,
+            @RequestParam("harga[]") List<String> harga,
+            @RequestParam("satuan[]") List<String> satuan,
+            @RequestParam("kuantitas[]") List<String> kuantitas,
+            Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
-        if(nama.size()>0){
+        if (nama.size() > 0) {
             int idTransaksiMasuk = repoTransaksiMasuk.addTransaksiMasuk(Integer.parseInt(member));
             for (int i = 0; i < nama.size(); i++) {
                 String itemNama = nama.get(i);
@@ -355,7 +354,7 @@ public class PemilikController {
                 int idHarga = yangDipilih.getIdHargaSekarang();
                 int kuantitasSaatIni = Integer.parseInt(itemKuantitas);
                 repoTransaksiMasukSampah.addTransaksiMasukSampah(idTransaksiMasuk, idSampah, idHarga, kuantitasSaatIni);
-                
+
                 int kuantitasDiDB = repoInvent.findByIdSampah(idSampah).get(0).getKuantitas();
                 kuantitasDiDB += kuantitasSaatIni;
                 repoInvent.updateKuantitas(kuantitasDiDB, idSampah);
@@ -365,15 +364,18 @@ public class PemilikController {
     }
 
     @GetMapping("/transaksiKePusat")
-    public String transaksiPusatPage(Model model, HttpServletRequest request){
+    public String transaksiPusatPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<TransaksiKePusat> list = repoTransaksiKePusat.findAll();
         model.addAttribute("listTransaksiMasuk", list);
+
+        List<Map<String, Object>> sisaSampah = repoTransaksiKePusat.getSisaSampah();
+        model.addAttribute("sisaSampah", sisaSampah);
         return "/pemilik/transaksi_ke_pusat";
     }
 
     @GetMapping("/tambahTransaksiKePusat")
-    public String addTransaksiPusatPage(Model model, HttpServletRequest request){
+    public String addTransaksiPusatPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
         List<Card> list = repoCard.findAll();
         model.addAttribute("listKet", list);
@@ -382,13 +384,13 @@ public class PemilikController {
 
     @PostMapping("/tambahTransaksiKePusat/add")
     public String addTransaksiPusat(
-        @RequestParam("nama[]") List<String> nama,
-        @RequestParam("harga[]") List<String> harga,
-        @RequestParam("satuan[]") List<String> satuan,
-        @RequestParam("kuantitas[]") List<String> kuantitas,    
-    Model model, HttpServletRequest request){
+            @RequestParam("nama[]") List<String> nama,
+            @RequestParam("harga[]") List<String> harga,
+            @RequestParam("satuan[]") List<String> satuan,
+            @RequestParam("kuantitas[]") List<String> kuantitas,
+            Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
-        if(nama.size()>0){
+        if (nama.size() > 0) {
             int idTransaksiKeluar = repoTransaksiKeluar.addTransaksiKeluar();
             for (int i = 0; i < nama.size(); i++) {
                 String itemNama = nama.get(i);
@@ -400,7 +402,8 @@ public class PemilikController {
                 int idSampah = yangDipilih.getIdSampah();
                 int idHarga = yangDipilih.getIdHargaSekarang();
                 int kuantitasSaatIni = Integer.parseInt(itemKuantitas);
-                repoTransaksiKeluarSampah.addTransaksiKeluarSampah(idTransaksiKeluar, idSampah, kuantitasSaatIni, idHarga);
+                repoTransaksiKeluarSampah.addTransaksiKeluarSampah(idTransaksiKeluar, idSampah, kuantitasSaatIni,
+                        idHarga);
 
                 int kuantitasDiDB = repoInvent.findByIdSampah(idSampah).get(0).getKuantitas();
                 kuantitasDiDB -= kuantitasSaatIni;
@@ -411,17 +414,17 @@ public class PemilikController {
     }
 
     @GetMapping("/laporan")
-    public String laporanPage(Model model, HttpServletRequest request){
+    public String laporanPage(Model model, HttpServletRequest request) {
         User user = getAuthentication(request);
-        
+
         List<Map<String, Object>> laporanSampah = repoTransaksiKeDalam.getLaporanSampah();
 
         model.addAttribute("listLaporan", laporanSampah);
         // model.addAttribute("listLaporan", laporanKePusat);
         return "/pemilik/laporan";
     }
-    
-    public User getAuthentication(HttpServletRequest request){
+
+    public User getAuthentication(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         User user = null;
         if (session != null) {

@@ -8,7 +8,10 @@ import java.util.Map;
 public interface TransaksiKePusatRepository {
 
     List<TransaksiKePusat> findAll();
+
     TransaksiKePusat mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException;
 
     List<Map<String, Object>> getLaporanSampah();
+
+    List<Map<String, Object>> getSisaSampah();
 }

@@ -21,23 +21,28 @@ public class JdbcTransaksiKePusatRepository implements TransaksiKePusatRepositor
     }
 
     @Override
+    public List<Map<String, Object>> getSisaSampah() {
+        String sql = "SELECT * FROM jumlahDiGudang";
+        return jdbcTemplate.queryForList(sql);
+    }
+
+    @Override
     public List<Map<String, Object>> getLaporanSampah() {
         String sql = "SELECT namasampah, SUM(jumlahsampah) AS kuantitas_ke_pusat " +
-                     "FROM transaksikepusat " +
-                     "GROUP BY namasampah";
+                "FROM transaksikepusat " +
+                "GROUP BY namasampah";
         return jdbcTemplate.queryForList(sql);
     }
 
     @Override
     public TransaksiKePusat mapRowToSatuanKuantitas(ResultSet resultSet, int rowNum) throws SQLException {
         return new TransaksiKePusat(
-            resultSet.getString("tanggal"), 
-            resultSet.getString("namaSampah"), 
-            resultSet.getInt("jumlahSampah"), 
-            resultSet.getString("satuanKuantitas"),
-            resultSet.getDouble("subTotal"),
-            resultSet.getInt("total"));
-        }
+                resultSet.getString("tanggal"),
+                resultSet.getString("namaSampah"),
+                resultSet.getInt("jumlahSampah"),
+                resultSet.getString("satuanKuantitas"),
+                resultSet.getDouble("subTotal"),
+                resultSet.getInt("total"));
+    }
 
-    
 }
